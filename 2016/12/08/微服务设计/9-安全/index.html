@@ -1,0 +1,822 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="srzyhead&#39;s blog">
+    <title>微服务设计 (9-安全) | srzyhead&#39;s blog</title>
+    <meta name="author" content="srzyhead">
+    
+        <meta name="keywords" content="hexo,javascript,">
+    
+    
+    
+    <meta name="description" content="安全身份验证和授权当我们抽象地讨论进行身份验证的人或事时,我们称之为主体(principal)
+SSO (Single Sign-On,单点登录)
+服务间的身份验证和授权在边界内允许一切。
+HTTP(S)基本身份验证用户名和密码泄露
+HTTP之上的HMACOAuth规范的一部分,并被广泛应用于亚马逊AWS的S3API。
+使用HMAC,请求主体和私有密钥一起被哈希处理,生成的哈希值随请求一起发送。然">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="微服务设计 (9-安全)">
+<meta property="og:url" content="https://srzyhead.github.io/2016/12/08/微服务设计/9-安全/index.html">
+<meta property="og:site_name" content="srzyhead's blog">
+<meta property="og:description" content="安全身份验证和授权当我们抽象地讨论进行身份验证的人或事时,我们称之为主体(principal)
+SSO (Single Sign-On,单点登录)
+服务间的身份验证和授权在边界内允许一切。
+HTTP(S)基本身份验证用户名和密码泄露
+HTTP之上的HMACOAuth规范的一部分,并被广泛应用于亚马逊AWS的S3API。
+使用HMAC,请求主体和私有密钥一起被哈希处理,生成的哈希值随请求一起发送。然">
+<meta property="og:image" content="https://srzyhead.github.io/assets/9-安全-bd0bd.png">
+<meta property="og:updated_time" content="2017-02-08T15:45:44.472Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微服务设计 (9-安全)">
+<meta name="twitter:description" content="安全身份验证和授权当我们抽象地讨论进行身份验证的人或事时,我们称之为主体(principal)
+SSO (Single Sign-On,单点登录)
+服务间的身份验证和授权在边界内允许一切。
+HTTP(S)基本身份验证用户名和密码泄露
+HTTP之上的HMACOAuth规范的一部分,并被广泛应用于亚马逊AWS的S3API。
+使用HMAC,请求主体和私有密钥一起被哈希处理,生成的哈希值随请求一起发送。然">
+<meta name="twitter:image" content="https://srzyhead.github.io/assets/9-安全-bd0bd.png">
+<meta name="twitter:creator" content="@srzyhead0310">
+    
+        <meta rel="publisher" content="https://plus.google.com/102811857381566040000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://srzyhead.github.io/assets/images/avatar.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ae7e31cd7a3258c5af68e7920915078d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">srzyhead&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">srzyhead</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:&#115;&#114;&#122;&#121;&#104;&#101;&#97;&#100;&#48;&#51;&#49;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="tencent://message/?menu=yes&uin=316324216&websitename=im.qq.com" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-qq"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/srzyhead" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/srzyhead0310" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="3" style="background-color: rgba(255, 255, 255, 0.85);"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            微服务设计 (9-安全)
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/分布式/">分布式</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:45:44 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h1 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h1><h2 id="身份验证和授权"><a href="#身份验证和授权" class="headerlink" title="身份验证和授权"></a>身份验证和授权</h2><p>当我们抽象地讨论进行身份验证的人或事时,我们称之为主体(principal)</p>
+<p>SSO (Single Sign-On,单点登录)</p>
+<h2 id="服务间的身份验证和授权"><a href="#服务间的身份验证和授权" class="headerlink" title="服务间的身份验证和授权"></a>服务间的身份验证和授权</h2><p>在边界内允许一切。</p>
+<h3 id="HTTP-S-基本身份验证"><a href="#HTTP-S-基本身份验证" class="headerlink" title="HTTP(S)基本身份验证"></a>HTTP(S)基本身份验证</h3><p>用户名和密码泄露</p>
+<h3 id="HTTP之上的HMAC"><a href="#HTTP之上的HMAC" class="headerlink" title="HTTP之上的HMAC"></a>HTTP之上的HMAC</h3><p>OAuth规范的一部分,并被广泛应用于亚马逊AWS的S3API。</p>
+<p>使用HMAC,请求主体和私有密钥一起被哈希处理,生成的哈希值随请求一起发送。然后,服务器使用请求主体和自己的私钥副本重建哈希值。如果匹配,它便接受请求。这样做的好处是,如果一个中间人更改了请求,那么哈希值会不匹配,服务器便知道该请求已被篡改过。并且,私钥永远不会随请求发送,因此不存在传输中被泄露的问题。额外的好处是,这个通信更容易被缓存,而且生成哈希的开销要低于处理HTTPS通信的开销。</p>
+<p>缺点：</p>
+<ul>
+<li><p>客户端和服务器需要一个共享的、以某种方式交流的密钥。</p>
+</li>
+<li><p>缺乏一个优秀的、开放的且有效的实现方式。</p>
+</li>
+<li><p>这种方法只能保证第三方无法篡改请求,且私钥本身不会泄露。但请求中所带的其他数据,对网络嗅探来说仍是可见的。</p>
+</li>
+</ul>
+<h3 id="API密钥"><a href="#API密钥" class="headerlink" title="API密钥"></a>API密钥</h3><p>像Twitter、谷歌、Hickr和AWS这样的服务商,提供的所有公共API都使用API密钥。API密钥允许服务识別出是谁在进行调用,然后对他们能做的进行限制。限制通常不仅限于特定资源的访问,还可以扩展到类似于针对特定的调用者限速,以保护其他人服务调用的质量等。</p>
+<p>API密钥的解决方案在商业和开源领域存在很多选项,每种系统提供的具体功能有所不同。有些产品只处理API密钥交换和一些基本的密钥管理。其他的工具提供包括限速、变现、API目录和发现系统等功能。</p>
+<p>一些API系统允许你将API密钥和现有目录服务联系起来。这允许将API密钥发布给你组织中的主体(代表人或系统),从而可以跟管理普通凭证一样,来控制这些密钥的生命周期。这为通过不同的方式访问系统,但保持一样的可靠信息来源提供了可能性。</p>
+<h3 id="代理问题"><a href="#代理问题" class="headerlink" title="代理问题"></a>代理问题</h3><p>有一种安全漏洞叫作 <em>混淆代理人问题</em> ,指的是在服务间通信的上下文中,攻击者采用一些措施欺骗代理服务,让它调用其下游服务,从而做到一些他不应该能做的事情。例如,一个用户,登录到在线购物系统时,可以查看账户详情。但如果他使用登录后的凭证,欺骗在线购物用户界面去请求别人的信息。</p>
+<h2 id="静态数据的安全"><a href="#静态数据的安全" class="headerlink" title="静态数据的安全"></a>静态数据的安全</h2><p>使用众所周知的加密算法</p>
+<ul>
+<li><p>深度防御</p>
+</li>
+<li><p>防火墙</p>
+</li>
+<li><p>曰志</p>
+</li>
+<li><p>操作系统</p>
+</li>
+</ul>
+<p><img src="assets/9-安全-bd0bd.png" alt=""></p>
+
+            
+            
+            <blockquote>
+            <p>转载请注明：转载自<a href="https://srzyhead.github.io" >srzyhead</a>的博客(https://srzyhead.github.io)</p>
+            <p>本文链接地址: <a href="https://srzyhead.github.io/2016/12/08/微服务设计/9-安全/">微服务设计 (9-安全)</a></p>
+            </blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/微服务/">微服务</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/微服务设计/8-监控/"  data-tooltip="微服务设计 (8-监控)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/深入理解Java虚拟机/1-走近Java/" data-tooltip="深入理解Java虚拟机 (1-走近 Java)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/微服务设计/9-安全/&amp;title=微服务设计 (9-安全)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/微服务设计/9-安全/&amp;title=微服务设计 (9-安全)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-微服务设计/9-安全" data-title="微服务设计 (9-安全)" data-url="https://srzyhead.github.io/2016/12/08/微服务设计/9-安全/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'undefined'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </section>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<span class="copyrights">
+        Copyrights &copy; 2017 <a href="https://srzyhead.github.io" >srzyhead</a>. All Rights Reserved.
+    </span>
+    <div class="visit">
+        <span id="busuanzi_container_site_pv" style='display:none'>
+            <span id="site-visit" title="visit_counter.site"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+            </span>
+        </span>
+        <span>| </span>
+        <span id="busuanzi_container_page_pv" style='display:none'>
+            <span id="page-visit"  title="visit_counter.page"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+            </span>
+        </span>
+    </div
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/微服务设计/8-监控/"  data-tooltip="微服务设计 (8-监控)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/深入理解Java虚拟机/1-走近Java/" data-tooltip="深入理解Java虚拟机 (1-走近 Java)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/微服务设计/9-安全/&amp;title=微服务设计 (9-安全)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/微服务设计/9-安全/&amp;title=微服务设计 (9-安全)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/微服务设计/9-安全/&amp;title=微服务设计 (9-安全)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/微服务设计/9-安全/&amp;title=微服务设计 (9-安全)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+        <a href="/">
+            <img id="about-card-picture" src="/assets/images/avatar.jpg"/>
+        </a>
+        
+        <a href="/">
+            <h4 id="about-card-name">srzyhead</h4>
+        </a>
+        
+            <div id="about-card-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Tianjin，China
+            </div>
+        
+    </div>
+</div>
+
+        <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    autofocus="autofocus"/>
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
+                            <h3 class="media-heading">深入理解Java虚拟机 (12-Java内存模型与线程)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/12-总结/">
+                            <h3 class="media-heading">微服务设计 (12-总结)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/1-简介/">
+                            <h3 class="media-heading">Latex学习笔记 (1-简介)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/2-入门/">
+                            <h3 class="media-heading">Latex学习笔记 (2-入门)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/3-字体/">
+                            <h3 class="media-heading">Latex学习笔记 (3-字体)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
+                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
+                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/3-设计方法/">
+                            <h3 class="media-heading">java虚拟机并发编程 (3-设计方法)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/">
+                            <h3 class="media-heading">java虚拟机并发编程 (4-可扩展性和线程安全)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
+                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="no post found"
+                data-message-one="1 post found"
+                data-message-other="{n} posts found">
+                60 posts found
+            </p>
+        </div>
+    </div>
+</div>
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+<script type="text/javascript">      
+     var search_path = "null";
+     if (search_path.length == 0) {
+        search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('EBQOF50CPE', '17c826d1e565fdb29e51bd6176350041');
+        var algoliaIndex = algoliaClient.initIndex('srzyhead-blog');
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/tomorrow.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+</html>

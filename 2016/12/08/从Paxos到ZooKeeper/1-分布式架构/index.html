@@ -1,0 +1,922 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="srzyhead&#39;s blog">
+    <title>从Paxos到ZooKeeper (1-分布式架构) | srzyhead&#39;s blog</title>
+    <meta name="author" content="srzyhead">
+    
+        <meta name="keywords" content="hexo,javascript,">
+    
+    
+    
+    <meta name="description" content="分布式架构分布式的特点分布式系统是一个硬件或软件组件分布在不同的网络计算机上,彼此之间仅仅通过消息传递进行通信和协调的系统。
+
+分布性
+
+对等性
+
+并发性
+
+缺乏全局时钟
+
+故障总是会发生
+
+
+分布式环境的各种问题
+通信异常
+
+单机内存访问的延时在纳秒数量级(通常是10ns左右),而正常的一次网络通信的延迟在0.1〜1ms左右(相当于内存访问延时的105〜106倍)
+
+网络分区
+
+当网络由于发生异">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="从Paxos到ZooKeeper (1-分布式架构)">
+<meta property="og:url" content="https://srzyhead.github.io/2016/12/08/从Paxos到ZooKeeper/1-分布式架构/index.html">
+<meta property="og:site_name" content="srzyhead's blog">
+<meta property="og:description" content="分布式架构分布式的特点分布式系统是一个硬件或软件组件分布在不同的网络计算机上,彼此之间仅仅通过消息传递进行通信和协调的系统。
+
+分布性
+
+对等性
+
+并发性
+
+缺乏全局时钟
+
+故障总是会发生
+
+
+分布式环境的各种问题
+通信异常
+
+单机内存访问的延时在纳秒数量级(通常是10ns左右),而正常的一次网络通信的延迟在0.1〜1ms左右(相当于内存访问延时的105〜106倍)
+
+网络分区
+
+当网络由于发生异">
+<meta property="og:image" content="https://srzyhead.github.io/assets/1-分布式架构-fe0bf.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/1-分布式架构-3ecc6.png">
+<meta property="og:updated_time" content="2017-02-08T15:39:21.452Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从Paxos到ZooKeeper (1-分布式架构)">
+<meta name="twitter:description" content="分布式架构分布式的特点分布式系统是一个硬件或软件组件分布在不同的网络计算机上,彼此之间仅仅通过消息传递进行通信和协调的系统。
+
+分布性
+
+对等性
+
+并发性
+
+缺乏全局时钟
+
+故障总是会发生
+
+
+分布式环境的各种问题
+通信异常
+
+单机内存访问的延时在纳秒数量级(通常是10ns左右),而正常的一次网络通信的延迟在0.1〜1ms左右(相当于内存访问延时的105〜106倍)
+
+网络分区
+
+当网络由于发生异">
+<meta name="twitter:image" content="https://srzyhead.github.io/assets/1-分布式架构-fe0bf.png">
+<meta name="twitter:creator" content="@srzyhead0310">
+    
+        <meta rel="publisher" content="https://plus.google.com/102811857381566040000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://srzyhead.github.io/assets/images/avatar.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ae7e31cd7a3258c5af68e7920915078d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">srzyhead&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">srzyhead</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:&#115;&#114;&#122;&#121;&#104;&#101;&#97;&#100;&#48;&#51;&#49;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="tencent://message/?menu=yes&uin=316324216&websitename=im.qq.com" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-qq"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/srzyhead" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/srzyhead0310" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="3" style="background-color: rgba(255, 255, 255, 0.85);"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            从Paxos到ZooKeeper (1-分布式架构)
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/分布式/">分布式</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:39:21 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h1 id="分布式架构"><a href="#分布式架构" class="headerlink" title="分布式架构"></a>分布式架构</h1><h2 id="分布式的特点"><a href="#分布式的特点" class="headerlink" title="分布式的特点"></a>分布式的特点</h2><p>分布式系统是一个硬件或软件组件分布在不同的网络计算机上,彼此之间仅仅通过消息传递进行通信和协调的系统。</p>
+<ul>
+<li><p>分布性</p>
+</li>
+<li><p>对等性</p>
+</li>
+<li><p>并发性</p>
+</li>
+<li><p>缺乏全局时钟</p>
+</li>
+<li><p>故障总是会发生</p>
+</li>
+</ul>
+<h3 id="分布式环境的各种问题"><a href="#分布式环境的各种问题" class="headerlink" title="分布式环境的各种问题"></a>分布式环境的各种问题</h3><ul>
+<li>通信异常</li>
+</ul>
+<p>单机内存访问的延时在纳秒数量级(通常是10ns左右),而正常的一次网络通信的延迟在0.1〜1ms左右(相当于内存访问延时的105〜106倍)</p>
+<ul>
+<li>网络分区</li>
+</ul>
+<p>当网络由于发生异常情况,导致分布式系统中部分节点之间的网络延时不断增大,最终导致组成分布式系统的所有节点中,只有部分节点之间能够进行正常通信,而另一些节点则不能——我们将这个现象称为网络分区,就是俗称的“脑裂”。</p>
+<ul>
+<li>三态</li>
+</ul>
+<p>分布式系统的每一次请求与响应,存在特有的“三态”槪念,即成功、失败与超时。</p>
+<ul>
+<li>节点故障</li>
+</ul>
+<p>组成分布式系统的服务器节点出现的宕机或“僵死”现象。</p>
+<h2 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h2><p>事务(Transaction)是由一系列对系统中数据进行访问与更新的操作所组成的一个程序执行逻辑单元(Unit),狭义上的事务特指数据库事务。一方面,当多个应用程序并发访问数据库时,事务可以在这些应用程序之间提供一个隔离方法,以防止彼此的操作互相干扰。另一方面,事务为数据库操作序列提供了一个从失败中恢复到正常状态的方法,同时提供了数据库即使在异常状态下仍能保持数据一致性的方法。(隔离和回滚)</p>
+<h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p>事务的原子性是指事务必须是一个原子的操作序列单元。</p>
+<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><p>事务的一致性是指事务的执行不能破坏数据库数据的完整性和一致性,一个事务在执行之前和执行之后,数据库都必须处于一致性状态。</p>
+<p>也就是说,事务执行的结果必须是使数据库从一个一致性状态转变到另一个一致性状态,因此当数据库只包含成功事务提交的结果时,就能说数据库处于一致性状态。而如果数据库系统在运行过程中发生故障,有些事务尚未完成就被迫中断,这些未完成的事务对数据库所做的修改有一部分已写入物理数据库,这时数据库就处于一种不正确的状态,或者说是不一致的状态。</p>
+<h3 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h3><p>事务的隔离性是指在并发环境中,并发的事务是相互隔离的,一个事务的执行不能被其他事务干扰。</p>
+<p>在标准SQL规范中,定义了4个事务隔离级別,不同的隔离级別对事务的处理不同,如未授权读取、授权读取、可重复读取和串行化。</p>
+<ul>
+<li>未授权读取</li>
+</ul>
+<p>未授权读取也被称为读未提交(Read Uncommitted),该隔离级别允许脏读取,其隔离级别最低。</p>
+<ul>
+<li>授权读取</li>
+</ul>
+<p>授权读取也被称为读已提交(Read Committed),它和未授权读取非常相近,唯一的区别就是授权读取只允许获取已经被提交的数据。</p>
+<ul>
+<li>可重复读取</li>
+</ul>
+<p>可重复读取(RepeatableRead),简单地说,就是保证在事务处理过程中,多次读取同一个数据时,其值都和事务开始时刻是一致的。</p>
+<ul>
+<li>串行化</li>
+</ul>
+<p>串行化 (Serializable) 是最严格的事务隔离级別。它要求所有事务都被串行执行,即事务只能一个接一个地进行处理,不能并发执行。</p>
+<p>4种隔离级别示意图</p>
+<p><img src="assets/1-分布式架构-fe0bf.png" alt=""></p>
+<p>隔离级别对比</p>
+<p><img src="assets/1-分布式架构-3ecc6.png" alt=""></p>
+<h3 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h3><p>事务的持久性也被称为永久性,是指一个事务一旦提交,它对数据库中对应数据的状态变更就应该是永久性的。</p>
+<h2 id="CAP和BASE理论"><a href="#CAP和BASE理论" class="headerlink" title="CAP和BASE理论"></a>CAP和BASE理论</h2><p><strong>CAP定理</strong> 一个分布式系统不可能同时满足一致性(C:Consistency)、可用性(A:Availability)和分区容错性(P:Partitiontolerance)这三个基本需求,最多只能同时满足其中的两项。</p>
+<ul>
+<li>一致性</li>
+</ul>
+<p>一致性是指数据在多个副本之间是否能够保持一致的特性。</p>
+<ul>
+<li>可用性</li>
+</ul>
+<p>可用性是指系统提供的服务必须一直处于可用的状态,对于用户的每一个操作请求总是能够在有限的时间内返回结果。</p>
+<ul>
+<li>分区容错性</li>
+</ul>
+<p>分布式系统在遇到任何网络分区故障的时候,仍然需要能够保证对外提供满足一致性和可用性的服务,除非是整个网络环境都发生了故障。</p>
+<h2 id="BASE理论"><a href="#BASE理论" class="headerlink" title="BASE理论"></a>BASE理论</h2><p>BASE是Basically Available(基本可用)、Softstate(软状态)和Eventually consistent(最终一致性)三个短语的简写</p>
+<ul>
+<li>基本可用</li>
+</ul>
+<p>基本可用是指分布式系统在出现不可预知故障的时候,允许损失部分可用性</p>
+<p>响应时间上的损失</p>
+<p>功能上的损失</p>
+<ul>
+<li>弱状态</li>
+</ul>
+<p>弱状态也称为软状态,和硬状态相对,是指允许系统中的数据存在中间状态,并认为该中间状态的存在不会影响系统的整体可用性,即允许系统在不同节点的数据副本之间进行数据同步的过程存在延时。</p>
+<ul>
+<li>最终一致性</li>
+</ul>
+<p>最终一致性强调的是系统中所有的数据副本,在经过一段时间的同步后,最终能够达到一个一致的状态。</p>
+<p>事实上,最终一致性并不是只有那些大型分布式系统才涉及的特性,许多现代的关系型数据库都采用了最终一致性模型。在现代关系型数据库中,大多都会采用同步和异步方式来实现主备数据复制技术。在同步方式中,数据的复制过程通常是更新事务的一部分,因此在事务完成后,主备数据库的数据就会达到一致。而在异步方式中,备库的更新往往会存在延时,这取决于事务日志在主备数据库之间传输的时间长短,如果传输时间过长或者甚至在日志传输过程中出现异常导致无法及时将事务应用到备库上,那么很显然,从备库中读取的数据将是旧的,因此就出现了数据不一致的情况。当然,无论是采用多次重试还是人为数据订正,关系型数据库还是能够保证最终数据达到一致——这就是系统提供最终一致性保证的经典案例。</p>
+
+            
+            
+            <blockquote>
+            <p>转载请注明：转载自<a href="https://srzyhead.github.io" >srzyhead</a>的博客(https://srzyhead.github.io)</p>
+            <p>本文链接地址: <a href="https://srzyhead.github.io/2016/12/08/从Paxos到ZooKeeper/1-分布式架构/">从Paxos到ZooKeeper (1-分布式架构)</a></p>
+            </blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/分布式理论/">分布式理论</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/领域驱动设计/0-基础知识/"  data-tooltip="领域驱动设计 (0-基础知识)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/从Paxos到ZooKeeper/4-ZooKeeper与Paxos/" data-tooltip="从Paxos到ZooKeeper (4-ZooKeeper与Paxos)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/从Paxos到ZooKeeper/1-分布式架构/&amp;title=从Paxos到ZooKeeper (1-分布式架构)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/从Paxos到ZooKeeper/1-分布式架构/&amp;title=从Paxos到ZooKeeper (1-分布式架构)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-从Paxos到ZooKeeper/1-分布式架构" data-title="从Paxos到ZooKeeper (1-分布式架构)" data-url="https://srzyhead.github.io/2016/12/08/从Paxos到ZooKeeper/1-分布式架构/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'undefined'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </section>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<span class="copyrights">
+        Copyrights &copy; 2017 <a href="https://srzyhead.github.io" >srzyhead</a>. All Rights Reserved.
+    </span>
+    <div class="visit">
+        <span id="busuanzi_container_site_pv" style='display:none'>
+            <span id="site-visit" title="visit_counter.site"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+            </span>
+        </span>
+        <span>| </span>
+        <span id="busuanzi_container_page_pv" style='display:none'>
+            <span id="page-visit"  title="visit_counter.page"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+            </span>
+        </span>
+    </div
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/领域驱动设计/0-基础知识/"  data-tooltip="领域驱动设计 (0-基础知识)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/从Paxos到ZooKeeper/4-ZooKeeper与Paxos/" data-tooltip="从Paxos到ZooKeeper (4-ZooKeeper与Paxos)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/从Paxos到ZooKeeper/1-分布式架构/&amp;title=从Paxos到ZooKeeper (1-分布式架构)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/从Paxos到ZooKeeper/1-分布式架构/&amp;title=从Paxos到ZooKeeper (1-分布式架构)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/从Paxos到ZooKeeper/1-分布式架构/&amp;title=从Paxos到ZooKeeper (1-分布式架构)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/从Paxos到ZooKeeper/1-分布式架构/&amp;title=从Paxos到ZooKeeper (1-分布式架构)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+        <a href="/">
+            <img id="about-card-picture" src="/assets/images/avatar.jpg"/>
+        </a>
+        
+        <a href="/">
+            <h4 id="about-card-name">srzyhead</h4>
+        </a>
+        
+            <div id="about-card-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Tianjin，China
+            </div>
+        
+    </div>
+</div>
+
+        <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    autofocus="autofocus"/>
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
+                            <h3 class="media-heading">深入理解Java虚拟机 (12-Java内存模型与线程)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/12-总结/">
+                            <h3 class="media-heading">微服务设计 (12-总结)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/1-简介/">
+                            <h3 class="media-heading">Latex学习笔记 (1-简介)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/2-入门/">
+                            <h3 class="media-heading">Latex学习笔记 (2-入门)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/3-字体/">
+                            <h3 class="media-heading">Latex学习笔记 (3-字体)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
+                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
+                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/3-设计方法/">
+                            <h3 class="media-heading">java虚拟机并发编程 (3-设计方法)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/">
+                            <h3 class="media-heading">java虚拟机并发编程 (4-可扩展性和线程安全)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
+                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="no post found"
+                data-message-one="1 post found"
+                data-message-other="{n} posts found">
+                60 posts found
+            </p>
+        </div>
+    </div>
+</div>
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+<script type="text/javascript">      
+     var search_path = "null";
+     if (search_path.length == 0) {
+        search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('EBQOF50CPE', '17c826d1e565fdb29e51bd6176350041');
+        var algoliaIndex = algoliaClient.initIndex('srzyhead-blog');
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/tomorrow.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+</html>

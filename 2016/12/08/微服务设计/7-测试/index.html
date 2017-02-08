@@ -1,0 +1,851 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="srzyhead&#39;s blog">
+    <title>微服务设计 (7-测试) | srzyhead&#39;s blog</title>
+    <meta name="author" content="srzyhead">
+    
+        <meta name="keywords" content="hexo,javascript,">
+    
+    
+    
+    <meta name="description" content="测试测试类型
+测试范围
+对于用户界面测试,接下来我们改称它为端到端测试。
+
+单元测试
+
+TDD (Test-Driven Design ,测试驱动开发)
+单元测试是帮助我们开发人员的,是面向技术而非面向业务的。
+
+服务测试
+
+服务测试是绕开用户界面、直接针对服务的测试。在独立应用程序中,服务测试可能只测试为用户界面提供服务的一些类。对于包含多个服务的系统,一个服务测试只测试其中一个单独服务的功能。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="微服务设计 (7-测试)">
+<meta property="og:url" content="https://srzyhead.github.io/2016/12/08/微服务设计/7-测试/index.html">
+<meta property="og:site_name" content="srzyhead's blog">
+<meta property="og:description" content="测试测试类型
+测试范围
+对于用户界面测试,接下来我们改称它为端到端测试。
+
+单元测试
+
+TDD (Test-Driven Design ,测试驱动开发)
+单元测试是帮助我们开发人员的,是面向技术而非面向业务的。
+
+服务测试
+
+服务测试是绕开用户界面、直接针对服务的测试。在独立应用程序中,服务测试可能只测试为用户界面提供服务的一些类。对于包含多个服务的系统,一个服务测试只测试其中一个单独服务的功能。">
+<meta property="og:image" content="https://srzyhead.github.io/assets/7-测试-6501e.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/7-测试-999bf.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/7-测试-34b6c.png">
+<meta property="og:updated_time" content="2017-02-08T15:45:12.308Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微服务设计 (7-测试)">
+<meta name="twitter:description" content="测试测试类型
+测试范围
+对于用户界面测试,接下来我们改称它为端到端测试。
+
+单元测试
+
+TDD (Test-Driven Design ,测试驱动开发)
+单元测试是帮助我们开发人员的,是面向技术而非面向业务的。
+
+服务测试
+
+服务测试是绕开用户界面、直接针对服务的测试。在独立应用程序中,服务测试可能只测试为用户界面提供服务的一些类。对于包含多个服务的系统,一个服务测试只测试其中一个单独服务的功能。">
+<meta name="twitter:image" content="https://srzyhead.github.io/assets/7-测试-6501e.png">
+<meta name="twitter:creator" content="@srzyhead0310">
+    
+        <meta rel="publisher" content="https://plus.google.com/102811857381566040000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://srzyhead.github.io/assets/images/avatar.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ae7e31cd7a3258c5af68e7920915078d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">srzyhead&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">srzyhead</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:&#115;&#114;&#122;&#121;&#104;&#101;&#97;&#100;&#48;&#51;&#49;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="tencent://message/?menu=yes&uin=316324216&websitename=im.qq.com" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-qq"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/srzyhead" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/srzyhead0310" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="3" style="background-color: rgba(255, 255, 255, 0.85);"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            微服务设计 (7-测试)
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/分布式/">分布式</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:45:12 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><h2 id="测试类型"><a href="#测试类型" class="headerlink" title="测试类型"></a>测试类型</h2><p><img src="assets/7-测试-6501e.png" alt=""></p>
+<h2 id="测试范围"><a href="#测试范围" class="headerlink" title="测试范围"></a>测试范围</h2><p><img src="assets/7-测试-999bf.png" alt=""></p>
+<p>对于用户界面测试,接下来我们改称它为端到端测试。</p>
+<ul>
+<li>单元测试</li>
+</ul>
+<p>TDD (Test-Driven Design ,测试驱动开发)</p>
+<p>单元测试是帮助我们开发人员的,是面向技术而非面向业务的。</p>
+<ul>
+<li>服务测试</li>
+</ul>
+<p>服务测试是绕开用户界面、直接针对服务的测试。在独立应用程序中,服务测试可能只测试为用户界面提供服务的一些类。对于包含多个服务的系统,一个服务测试只测试其中一个单独服务的功能。</p>
+<p>只测试一个单独的服务可以提高测试的隔离性,这样我们就可以更快地定位并解决问题。为了达到这种隔离性,我们需要给所有的外部合作者打桩,以便只把服务本身保留在测试范围内。</p>
+<ul>
+<li>端到端测试</li>
+</ul>
+<p>打开一个浏览器来操作图形用户界面 ( GUI )</p>
+<h3 id="权衡"><a href="#权衡" class="headerlink" title="权衡"></a>权衡</h3><p>越靠近金字塔的顶端,测试覆盖的范围越大,同时我们对被测试后的功能也越有信心。而缺点是,因为需要更长的时间运行测试,所以反馈周期会变长。并且当测试失败时,比较难定位是哪个功能被破坏。而越靠近金字塔的底部,一般来说测试会越快,所以反馈周期也会变短,测试失败后更容易定位被破坏的功能,持续集成的构建时间也很短。</p>
+<p>为不同目的选择不同的测试来覆盖不同的范围。</p>
+<h3 id="比例"><a href="#比例" class="headerlink" title="比例"></a>比例</h3><p>顺着金字塔向下,下面一层的测试数量要比上面一层多一个数量级。如果当前的权衡确实给你带来了问题,那可以尝试调整不同类型自动化测试的比例</p>
+<h2 id="实现服务测试"><a href="#实现服务测试" class="headerlink" title="实现服务测试"></a>实现服务测试</h2><p><em>打桩</em> 是指为被测服务的请求创建一些有着预设响应的打桩服务。</p>
+<p>与打桩相比,<em>mock</em> 还会进一步验证请求本身是否被正确调用。如果与期望请求不匹配,测试便会失败。</p>
+<h3 id="智能的打桩服务"><a href="#智能的打桩服务" class="headerlink" title="智能的打桩服务"></a>智能的打桩服务</h3><p>Mountebank (<a href="http://www.mbtest.org/" target="_blank" rel="external">http://www.mbtest.org/</a>)</p>
+<h3 id="端到端测试"><a href="#端到端测试" class="headerlink" title="端到端测试"></a>端到端测试</h3><p>让多个流水线扇入(fanin)到一个独立的端到端测试的阶段(stage)。</p>
+<p><img src="assets/7-测试-34b6c.png" alt=""></p>
+<p>包含在测试中的服务数量越多,测试就会越脆弱,不确定性也就越强。如果测试失败以后每个人都只是想重新运行一遍测试,然后希望有可能通过,那么这种测试是脆弱的。不仅这种涉及多个服务的测试很脆弱,涉及多线程功能的测试通常也会有问题。</p>
+<p>发现脆弱的测试时应该立刻记录下来,当不能立即修复时,需要把它们从测试套件中移除,然后就可以不受打扰地安心修复它们。修复时,首先看看能不能通过重写来避免被测代码运行在多个线程中,再看看是否能让运行的环境更稳定。更好的方法是,看看能否用不易出现问题的小范围测试取代脆弱的端到端测试。有时候,改变被测软件本身以使之更容易测试也是一个正确的方向。</p>
+<p>团队可以随意提交测试到这个套件,但实现服务的团队必须全都负责维护套件的健康。</p>
+<p>不给整个系统使用同一个版本号，因为把多个服务一起进行部署经常会导致服务的耦合。</p>
+<p>测试场景,而不是故事。我们应该把测试整个系统的重心放到少量核心的场景上来。把任何在这些核心场景之外的功能放在相互隔离的服务测试中覆盖。团队之间需要就这些核心场景达成一致,并共同拥有。</p>
+<p>使用之前所提到的端到端测试,我们试图解决的关键问题是什么?是试图确保部署新的服务到生产环境后,变更不会破坏新服务的消费者。有一种不需要使用真正的消费者也能达到同样目的的方式,它就是 CDC ( Consumer-Driven Contract ,消费者驱动的契约)。</p>
+<h3 id="区分部署和上线"><a href="#区分部署和上线" class="headerlink" title="区分部署和上线"></a>区分部署和上线</h3><ul>
+<li><p>蓝/绿部署</p>
+</li>
+<li><p>金丝雀发布(canary releasing)</p>
+</li>
+</ul>
+<p>金丝雀发布是指通过将部分生产流量引流到新部署的系统,来验证系统是否按预期执行。“按预期执行”可以涵盖很多内容,包括功能性的和非功能性的。例如,我们可以验证新部署服务的请求响应时间是否在500毫秒以内,或者查看新服务和旧服务是否有相同的错误率比例(proportional error rate)。甚至更进一步,如果我们要发布一个新版本的推荐服务,可以同时运行两个版本,然后看看新版本的推荐服务是否能够达到预期的销售量,以确保我们没有发布一个次优算法的服务。如果新版本没有达到预期,我们可以迅速恢复到旧版本。如果达到了预期,我们可以引导更多的流量到新版本。金丝雀发布与蓝/绿发布的不同之处在于,新旧版本共存的时间更长,而且经常会调整流量。</p>
+<h3 id="平均修复时间胜过平均故障间隔时间"><a href="#平均修复时间胜过平均故障间隔时间" class="headerlink" title="平均修复时间胜过平均故障间隔时间"></a>平均修复时间胜过平均故障间隔时间</h3><p>有时花费相同的努力让发布变更变得更好,比添加更多的自动化功能测试更加有益。在Web操作的世界,这通常被称为平均故障间隔时间(Mean Time Between Failures,MTBF)和平均修复时间(Mean Time To Repair,MTTR)之间的权衡优化。</p>
+<p>减少修复时间的技术可以简单到尽快回滚加上良好的监控,类似蓝/绿部署。</p>
+
+            
+            
+            <blockquote>
+            <p>转载请注明：转载自<a href="https://srzyhead.github.io" >srzyhead</a>的博客(https://srzyhead.github.io)</p>
+            <p>本文链接地址: <a href="https://srzyhead.github.io/2016/12/08/微服务设计/7-测试/">微服务设计 (7-测试)</a></p>
+            </blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/微服务/">微服务</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/微服务设计/6-部署/"  data-tooltip="微服务设计 (6-部署)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/微服务设计/8-监控/" data-tooltip="微服务设计 (8-监控)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/微服务设计/7-测试/&amp;title=微服务设计 (7-测试)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/微服务设计/7-测试/&amp;title=微服务设计 (7-测试)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-微服务设计/7-测试" data-title="微服务设计 (7-测试)" data-url="https://srzyhead.github.io/2016/12/08/微服务设计/7-测试/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'undefined'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </section>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<span class="copyrights">
+        Copyrights &copy; 2017 <a href="https://srzyhead.github.io" >srzyhead</a>. All Rights Reserved.
+    </span>
+    <div class="visit">
+        <span id="busuanzi_container_site_pv" style='display:none'>
+            <span id="site-visit" title="visit_counter.site"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+            </span>
+        </span>
+        <span>| </span>
+        <span id="busuanzi_container_page_pv" style='display:none'>
+            <span id="page-visit"  title="visit_counter.page"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+            </span>
+        </span>
+    </div
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/微服务设计/6-部署/"  data-tooltip="微服务设计 (6-部署)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/微服务设计/8-监控/" data-tooltip="微服务设计 (8-监控)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/微服务设计/7-测试/&amp;title=微服务设计 (7-测试)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/微服务设计/7-测试/&amp;title=微服务设计 (7-测试)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/微服务设计/7-测试/&amp;title=微服务设计 (7-测试)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/微服务设计/7-测试/&amp;title=微服务设计 (7-测试)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+        <a href="/">
+            <img id="about-card-picture" src="/assets/images/avatar.jpg"/>
+        </a>
+        
+        <a href="/">
+            <h4 id="about-card-name">srzyhead</h4>
+        </a>
+        
+            <div id="about-card-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Tianjin，China
+            </div>
+        
+    </div>
+</div>
+
+        <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    autofocus="autofocus"/>
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
+                            <h3 class="media-heading">深入理解Java虚拟机 (12-Java内存模型与线程)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/12-总结/">
+                            <h3 class="media-heading">微服务设计 (12-总结)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/1-简介/">
+                            <h3 class="media-heading">Latex学习笔记 (1-简介)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/2-入门/">
+                            <h3 class="media-heading">Latex学习笔记 (2-入门)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/3-字体/">
+                            <h3 class="media-heading">Latex学习笔记 (3-字体)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
+                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
+                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/3-设计方法/">
+                            <h3 class="media-heading">java虚拟机并发编程 (3-设计方法)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/">
+                            <h3 class="media-heading">java虚拟机并发编程 (4-可扩展性和线程安全)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
+                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="no post found"
+                data-message-one="1 post found"
+                data-message-other="{n} posts found">
+                60 posts found
+            </p>
+        </div>
+    </div>
+</div>
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+<script type="text/javascript">      
+     var search_path = "null";
+     if (search_path.length == 0) {
+        search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('EBQOF50CPE', '17c826d1e565fdb29e51bd6176350041');
+        var algoliaIndex = algoliaClient.initIndex('srzyhead-blog');
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/tomorrow.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+</html>

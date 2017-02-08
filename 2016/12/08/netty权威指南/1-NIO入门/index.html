@@ -1,0 +1,884 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="srzyhead&#39;s blog">
+    <title>netty权威指南 (1-NIO入门) | srzyhead&#39;s blog</title>
+    <meta name="author" content="srzyhead">
+    
+        <meta name="keywords" content="hexo,javascript,">
+    
+    
+    
+    <meta name="description" content="NIO基础知识Linux网络I/O模型简介根据UNIX网络编程对I/O模型的分类，UNIX提供了5种I/O模型
+
+阻塞I/O模型
+
+非阻塞I/O模型
+
+I/O复用模型select/poll 进程通过将一个或多个fd传递给select或poll系统调用
+I/O多路复用技术
+
+支持一个进程打开的socket描述符(FD)不受限制(仅受限于操作系统的最大文件句柄数)
+
+I/O效率不会随着FD数目的增加而">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="netty权威指南 (1-NIO入门)">
+<meta property="og:url" content="https://srzyhead.github.io/2016/12/08/netty权威指南/1-NIO入门/index.html">
+<meta property="og:site_name" content="srzyhead's blog">
+<meta property="og:description" content="NIO基础知识Linux网络I/O模型简介根据UNIX网络编程对I/O模型的分类，UNIX提供了5种I/O模型
+
+阻塞I/O模型
+
+非阻塞I/O模型
+
+I/O复用模型select/poll 进程通过将一个或多个fd传递给select或poll系统调用
+I/O多路复用技术
+
+支持一个进程打开的socket描述符(FD)不受限制(仅受限于操作系统的最大文件句柄数)
+
+I/O效率不会随着FD数目的增加而">
+<meta property="og:image" content="https://srzyhead.github.io/assets/1-NIO入门-1bc01.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/1-NIO入门-981ef.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/1-NIO入门-c026d.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/1-NIO入门-2aa1e.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/1-NIO入门-a90c4.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/1-NIO入门-46ccc.png">
+<meta property="og:updated_time" content="2017-02-08T15:36:26.732Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="netty权威指南 (1-NIO入门)">
+<meta name="twitter:description" content="NIO基础知识Linux网络I/O模型简介根据UNIX网络编程对I/O模型的分类，UNIX提供了5种I/O模型
+
+阻塞I/O模型
+
+非阻塞I/O模型
+
+I/O复用模型select/poll 进程通过将一个或多个fd传递给select或poll系统调用
+I/O多路复用技术
+
+支持一个进程打开的socket描述符(FD)不受限制(仅受限于操作系统的最大文件句柄数)
+
+I/O效率不会随着FD数目的增加而">
+<meta name="twitter:image" content="https://srzyhead.github.io/assets/1-NIO入门-1bc01.png">
+<meta name="twitter:creator" content="@srzyhead0310">
+    
+        <meta rel="publisher" content="https://plus.google.com/102811857381566040000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://srzyhead.github.io/assets/images/avatar.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ae7e31cd7a3258c5af68e7920915078d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">srzyhead&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">srzyhead</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:&#115;&#114;&#122;&#121;&#104;&#101;&#97;&#100;&#48;&#51;&#49;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="tencent://message/?menu=yes&uin=316324216&websitename=im.qq.com" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-qq"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/srzyhead" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/srzyhead0310" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="3" style="background-color: rgba(255, 255, 255, 0.85);"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            netty权威指南 (1-NIO入门)
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/JAVA/">JAVA</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:36:26 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h1 id="NIO基础知识"><a href="#NIO基础知识" class="headerlink" title="NIO基础知识"></a>NIO基础知识</h1><h2 id="Linux网络I-O模型简介"><a href="#Linux网络I-O模型简介" class="headerlink" title="Linux网络I/O模型简介"></a>Linux网络I/O模型简介</h2><p>根据UNIX网络编程对I/O模型的分类，UNIX提供了5种I/O模型</p>
+<ol>
+<li><p>阻塞I/O模型<br><img src="assets/1-NIO入门-1bc01.png" alt=""></p>
+</li>
+<li><p>非阻塞I/O模型<br><img src="assets/1-NIO入门-981ef.png" alt=""></p>
+</li>
+<li><p>I/O复用模型<br>select/poll 进程通过将一个或多个fd传递给select或poll系统调用<br><img src="assets/1-NIO入门-c026d.png" alt=""></p>
+<p>I/O多路复用技术</p>
+<ul>
+<li><p>支持一个进程打开的socket描述符(FD)不受限制(仅受限于操作系统的最大文件句柄数)</p>
+</li>
+<li><p>I/O效率不会随着FD数目的增加而线性下降</p>
+</li>
+<li><p>使用mmap加速内核与用户空间的消息传递</p>
+</li>
+</ul>
+<p>无论是select、poll还是epoll都需要内核把FD消息通知给用户空间,如何避免不必要的内存复制就显得非常重要,epoll是通过内核和用户空间mmap同一块内存来实现的。</p>
+<ul>
+<li>epoll的API更加简单</li>
+</ul>
+</li>
+<li><p>信号驱动I/O模型<br><img src="assets/1-NIO入门-2aa1e.png" alt=""></p>
+</li>
+<li><p>异步I/O<br><img src="assets/1-NIO入门-a90c4.png" alt=""></p>
+</li>
+</ol>
+<h2 id="Java的I-O发展史"><a href="#Java的I-O发展史" class="headerlink" title="Java的I/O发展史"></a>Java的I/O发展史</h2><ol>
+<li><p>JDK1.4 NIO</p>
+<p>NIO以JSR-51的身份正式随JDK发布，主要的类和接口如下：</p>
+<ul>
+<li>进行异步I/O操作的缓冲区ByteBuffer等</li>
+<li>进行各种I/O操作(异步或者同步)的Channel</li>
+<li>多种字符集的编码能力和解码能力</li>
+<li>实现非肌塞I/O操作的多路复用器selector</li>
+<li>文件通道FileChannel</li>
+</ul>
+<p>不完善的地方：</p>
+<ul>
+<li>没有统一的文件属性(例如读写权限)</li>
+<li>API能力比较弱,例如目录的级联创建和递归遍历,往往需要自己实现</li>
+<li>底层存储系统的一些高级API无法使用</li>
+<li>所有的文件操作都是同步阻塞调用,不支持异步文件读写操作</li>
+</ul>
+</li>
+<li><p>JDK1.7 NIO2.0</p>
+<ul>
+<li>增强文件处理</li>
+<li>提供AIO，支持基于文件的异步I/O操作和针对网络套接字的异步操作</li>
+<li>完成JSR-51定义的通道功能</li>
+</ul>
+</li>
+</ol>
+<h2 id="java-IO编程"><a href="#java-IO编程" class="headerlink" title="java IO编程"></a>java IO编程</h2><h3 id="传统的同步阻塞式I-O编程（BIO）"><a href="#传统的同步阻塞式I-O编程（BIO）" class="headerlink" title="传统的同步阻塞式I/O编程（BIO）"></a>传统的同步阻塞式I/O编程（BIO）</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 初始化</span></div><div class="line">server = <span class="keyword">new</span> ServerSocket(port);</div><div class="line"><span class="comment">// 获取socket及处理</span></div><div class="line">socket = server.accept();</div><div class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> TimeServerHandler(socket)).start();</div></pre></td></tr></table></figure>
+<h3 id="伪异步I-O编程"><a href="#伪异步I-O编程" class="headerlink" title="伪异步I/O编程"></a>伪异步I/O编程</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 初始化</span></div><div class="line">server = <span class="keyword">new</span> ServerSocket(port);</div><div class="line">TimeServerHandlerExecutePool singleExecutor = <span class="keyword">new</span> TimeServerHandlerExecutePool(<span class="number">50</span>, <span class="number">10000</span>); <span class="comment">// 创建IO任务线程池</span></div><div class="line"><span class="comment">// 获取socket及处理</span></div><div class="line">socket = server.accept();</div><div class="line">singleExecutor.execute(<span class="keyword">new</span> TimeServerHandler(socket));</div></pre></td></tr></table></figure>
+<h3 id="基于NIO的非阻塞编程"><a href="#基于NIO的非阻塞编程" class="headerlink" title="基于NIO的非阻塞编程"></a>基于NIO的非阻塞编程</h3><p>核心：Buffer，Channel，Selector</p>
+<p>服务端序列图</p>
+<p><img src="assets/1-NIO入门-46ccc.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 打开ServerSocketChannel,用于监听客户端的连接,它是所有客户端连接的父管道</span></div><div class="line">ServerSocketChannel servChannel = ServerSocketChannel.open();</div><div class="line"><span class="comment">// 绑定监听端口,设置连接为非阻塞模式</span></div><div class="line">servChannel.socket().bind(<span class="keyword">new</span> InetSocketAddress(port), <span class="number">1024</span>);</div><div class="line">servChannel.configureBlocking(<span class="keyword">false</span>);</div><div class="line"><span class="comment">// 创建Reactor线程,创建多路复用器并启动线程</span></div><div class="line">Selector selector = Selector.open();</div><div class="line"><span class="function">New <span class="title">Thread</span><span class="params">(new ReactorTask()</span>) .<span class="title">start</span> <span class="params">()</span></span>;</div><div class="line"><span class="comment">//将ServerSocketChannel注册到Reactor线程的多路复用器Selector上,监听ACCEPT事件</span></div><div class="line">servChannel.register(selector, SelectionKey.OP_ACCEPT);</div><div class="line"><span class="comment">//多路复用器在线程run方法的无限循环体内轮询准备就绪的Key</span></div><div class="line"><span class="keyword">int</span> num = selector.select();</div><div class="line">Set&lt;SelectionKey&gt; selectedKeys = selector.selectedKeys();</div><div class="line">Iterator&lt;SelectionKey&gt; it = selectedKeys.iterator();</div><div class="line"><span class="keyword">while</span> (it.hasNext()) &#123;</div><div class="line">  SelectionKey key = it.next();</div><div class="line">  <span class="comment">// ... deal with I/O event ...</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//多路复用器监听到有新的客户端接入,处理新的接入请求,完成TCP三次握手,建立物理链路</span></div><div class="line">ServerSocketChannel ssc = (ServerSocketChannel) key.channel();</div><div class="line">SocketChannel sc = ssc.accept();</div><div class="line"><span class="comment">//设置客户端链路为非阻塞模式</span></div><div class="line">sc.configureBlocking(<span class="keyword">false</span>);</div><div class="line">sc.socket().setReuseAddress(<span class="keyword">true</span>);</div><div class="line"><span class="comment">//将新接入的客户端连接注册到Reactor线程的多路复用器上,监听读操作,读取客户端发送的网络消息</span></div><div class="line">sc.register(selector, SelectionKey.OP_READ);</div><div class="line"><span class="comment">//异步读取客户端请求消息到缓冲区</span></div><div class="line"><span class="keyword">int</span> readBytes = sc.read(readBuffer);</div><div class="line"><span class="comment">//对ByteBuffer进行编解码,如果有半包消息指针reset,继续读取后续的报文,将解码成功的泊息封装成Task,投递到业务线程池中,进行业务逻辑编排</span></div><div class="line">Object message = <span class="keyword">null</span>;</div><div class="line"><span class="keyword">while</span>(buffer.hasRemain()) &#123;</div><div class="line">  byteBuffer.mark();</div><div class="line">  Object message = decode(byteBuffer);</div><div class="line">  <span class="keyword">if</span> (message == <span class="keyword">null</span>) &#123;</div><div class="line">    byteBuffer.reset();</div><div class="line">    <span class="keyword">break</span>;</div><div class="line">  &#125;</div><div class="line">  messageList.add(message);</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (IbyteBuffer.hasRemain())  </div><div class="line">  byteBuffer.clear();</div><div class="line"><span class="keyword">else</span></div><div class="line">  byteBuffer.compact ();</div><div class="line"><span class="keyword">if</span> (messageList != <span class="keyword">null</span> &amp; !messageList.isEmpty()) &#123;</div><div class="line">  <span class="keyword">for</span> (Object messageE : messageList)</div><div class="line">    handlerTask(messageE);</div><div class="line">&#125;</div><div class="line"><span class="comment">//将POJO对象encode成ByteBuffer,调用SocketChannel的异步write接口,将消息异步发送给客户端</span></div><div class="line">socketChannel.write(buffer);</div></pre></td></tr></table></figure>
+<h3 id="基于NI02-0的异步非阻塞-AIO-编程"><a href="#基于NI02-0的异步非阻塞-AIO-编程" class="headerlink" title="基于NI02.0的异步非阻塞(AIO)编程"></a>基于NI02.0的异步非阻塞(AIO)编程</h3><p>AsynchronousServerSocketChannel和AsynchronousSocketChannel,它们都由JDK底层的线程池负责回调并驱动读写操作。<br>正因为如此,基于NIO2.0新的异步非阻塞Channel进行编程比NIO编程更为简单。</p>
+<p><em>各种回调函数，杂技的不行 -_-</em></p>
+<h3 id="不选择Java原生NIO编程的原因"><a href="#不选择Java原生NIO编程的原因" class="headerlink" title="不选择Java原生NIO编程的原因"></a>不选择Java原生NIO编程的原因</h3><ul>
+<li><p>使用麻烦</p>
+</li>
+<li><p>因为NIO编程涉及到Reactor模式,你必须对多线程和网路编程非常熟悉</p>
+</li>
+<li><p>可靠性能力补齐，工作最和难度都非常大。例如客户端面临断连重连、网络闪断、半包读写、失败缓存、网络拥塞和异常码流的处理等问题</p>
+</li>
+<li><p>JDK NIO的BUG，例如炅名昭著的epoll bug</p>
+</li>
+</ul>
+
+            
+            
+            <blockquote>
+            <p>转载请注明：转载自<a href="https://srzyhead.github.io" >srzyhead</a>的博客(https://srzyhead.github.io)</p>
+            <p>本文链接地址: <a href="https://srzyhead.github.io/2016/12/08/netty权威指南/1-NIO入门/">netty权威指南 (1-NIO入门)</a></p>
+            </blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/java/">java</a> <a class="tag tag--primary tag--small t-link" href="/tags/nio/">nio</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/java虚拟机并发编程/6-软件事务内存/"  data-tooltip="java虚拟机并发编程 (6-软件事务内存)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/netty权威指南/2-netty入门/" data-tooltip="netty权威指南 (2-netty入门)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/netty权威指南/1-NIO入门/&amp;title=netty权威指南 (1-NIO入门)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/netty权威指南/1-NIO入门/&amp;title=netty权威指南 (1-NIO入门)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-netty权威指南/1-NIO入门" data-title="netty权威指南 (1-NIO入门)" data-url="https://srzyhead.github.io/2016/12/08/netty权威指南/1-NIO入门/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'undefined'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </section>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<span class="copyrights">
+        Copyrights &copy; 2017 <a href="https://srzyhead.github.io" >srzyhead</a>. All Rights Reserved.
+    </span>
+    <div class="visit">
+        <span id="busuanzi_container_site_pv" style='display:none'>
+            <span id="site-visit" title="visit_counter.site"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+            </span>
+        </span>
+        <span>| </span>
+        <span id="busuanzi_container_page_pv" style='display:none'>
+            <span id="page-visit"  title="visit_counter.page"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+            </span>
+        </span>
+    </div
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/java虚拟机并发编程/6-软件事务内存/"  data-tooltip="java虚拟机并发编程 (6-软件事务内存)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/netty权威指南/2-netty入门/" data-tooltip="netty权威指南 (2-netty入门)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/netty权威指南/1-NIO入门/&amp;title=netty权威指南 (1-NIO入门)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/netty权威指南/1-NIO入门/&amp;title=netty权威指南 (1-NIO入门)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/netty权威指南/1-NIO入门/&amp;title=netty权威指南 (1-NIO入门)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/netty权威指南/1-NIO入门/&amp;title=netty权威指南 (1-NIO入门)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+        <a href="/">
+            <img id="about-card-picture" src="/assets/images/avatar.jpg"/>
+        </a>
+        
+        <a href="/">
+            <h4 id="about-card-name">srzyhead</h4>
+        </a>
+        
+            <div id="about-card-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Tianjin，China
+            </div>
+        
+    </div>
+</div>
+
+        <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    autofocus="autofocus"/>
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
+                            <h3 class="media-heading">深入理解Java虚拟机 (12-Java内存模型与线程)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/12-总结/">
+                            <h3 class="media-heading">微服务设计 (12-总结)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/1-简介/">
+                            <h3 class="media-heading">Latex学习笔记 (1-简介)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/2-入门/">
+                            <h3 class="media-heading">Latex学习笔记 (2-入门)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/3-字体/">
+                            <h3 class="media-heading">Latex学习笔记 (3-字体)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
+                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
+                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/3-设计方法/">
+                            <h3 class="media-heading">java虚拟机并发编程 (3-设计方法)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/">
+                            <h3 class="media-heading">java虚拟机并发编程 (4-可扩展性和线程安全)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
+                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="no post found"
+                data-message-one="1 post found"
+                data-message-other="{n} posts found">
+                60 posts found
+            </p>
+        </div>
+    </div>
+</div>
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+<script type="text/javascript">      
+     var search_path = "null";
+     if (search_path.length == 0) {
+        search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('EBQOF50CPE', '17c826d1e565fdb29e51bd6176350041');
+        var algoliaIndex = algoliaClient.initIndex('srzyhead-blog');
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/tomorrow.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+</html>

@@ -1,0 +1,803 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="srzyhead&#39;s blog">
+    <title>计算理论导引 (8-时间复杂性) | srzyhead&#39;s blog</title>
+    <meta name="author" content="srzyhead">
+    
+        <meta name="keywords" content="hexo,javascript,">
+    
+    
+    
+    <meta name="description" content="时间复杂性度量复杂性在 最坏情况分析（worst-case analysis) 中，即这里考察的形式，考虑在某特定长度的所有输人上的最长运行时间。在 平均情况分析(average-case analysis) 中，考虑在某特定长度的所有输入上的运行时间的平均值。
+令$M$是一个在所有输入上都停机的确定型图灵机。$M$的运行时间或者 时间复杂度，是一个函数$f:N→N$,其中$N$是非负整数集合，$">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="计算理论导引 (8-时间复杂性)">
+<meta property="og:url" content="https://srzyhead.github.io/2016/12/08/计算理论导引/8-时间复杂性/index.html">
+<meta property="og:site_name" content="srzyhead's blog">
+<meta property="og:description" content="时间复杂性度量复杂性在 最坏情况分析（worst-case analysis) 中，即这里考察的形式，考虑在某特定长度的所有输人上的最长运行时间。在 平均情况分析(average-case analysis) 中，考虑在某特定长度的所有输入上的运行时间的平均值。
+令$M$是一个在所有输入上都停机的确定型图灵机。$M$的运行时间或者 时间复杂度，是一个函数$f:N→N$,其中$N$是非负整数集合，$">
+<meta property="og:image" content="https://srzyhead.github.io/assets/8-时间复杂性-1029c.png">
+<meta property="og:updated_time" content="2017-02-08T15:50:11.816Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算理论导引 (8-时间复杂性)">
+<meta name="twitter:description" content="时间复杂性度量复杂性在 最坏情况分析（worst-case analysis) 中，即这里考察的形式，考虑在某特定长度的所有输人上的最长运行时间。在 平均情况分析(average-case analysis) 中，考虑在某特定长度的所有输入上的运行时间的平均值。
+令$M$是一个在所有输入上都停机的确定型图灵机。$M$的运行时间或者 时间复杂度，是一个函数$f:N→N$,其中$N$是非负整数集合，$">
+<meta name="twitter:image" content="https://srzyhead.github.io/assets/8-时间复杂性-1029c.png">
+<meta name="twitter:creator" content="@srzyhead0310">
+    
+        <meta rel="publisher" content="https://plus.google.com/102811857381566040000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://srzyhead.github.io/assets/images/avatar.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ae7e31cd7a3258c5af68e7920915078d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">srzyhead&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">srzyhead</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:&#115;&#114;&#122;&#121;&#104;&#101;&#97;&#100;&#48;&#51;&#49;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="tencent://message/?menu=yes&uin=316324216&websitename=im.qq.com" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-qq"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/srzyhead" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/srzyhead0310" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="3" style="background-color: rgba(255, 255, 255, 0.85);"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            计算理论导引 (8-时间复杂性)
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/计算机科学/">计算机科学</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:50:11 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h1 id="时间复杂性"><a href="#时间复杂性" class="headerlink" title="时间复杂性"></a>时间复杂性</h1><h2 id="度量复杂性"><a href="#度量复杂性" class="headerlink" title="度量复杂性"></a>度量复杂性</h2><p>在 <strong>最坏情况分析（worst-case analysis)</strong> 中，即这里考察的形式，考虑在某特定长度的所有输人上的最长运行时间。在 <strong>平均情况分析(average-case analysis)</strong> 中，考虑在某特定长度的所有输入上的运行时间的平均值。</p>
+<p>令$M$是一个在所有输入上都停机的确定型图灵机。$M$的运行时间或者 <strong>时间复杂度</strong>，是一个函数$f:N→N$,其中$N$是非负整数集合，$f(n)$是M在所有长度为$n$的输入上运行时所经过的最大步数。若$f(n)$是$M$的运行时间，则称$M$在时间$f(n)$内运行，$M$是$f(n)$时间图灵机。通常使用$n$表示输入的长度。</p>
+<h3 id="大O和小o记法"><a href="#大O和小o记法" class="headerlink" title="大O和小o记法"></a>大O和小o记法</h3><p>渐近分析（asymptotic analysis)</p>
+<p>函数$f(n)=6n^3+2n^2+20n+45$有四项，最髙次项是$6n^3$。忽略系数6,称$f$渐近地不大于$n^3$。表达这种关系的 <strong>渐近记法</strong> 或 <strong>大$O$记法</strong> 是$f(n)=O(n^3)$。</p>
+<p>我们经常导出形如$n^c$的界，$c$是大于0的常数。这种界称为 <strong>多项式界（polynomial bound)</strong> 。形如$2^{(n^δ)}$的界，当$δ$是大于0的实数时，称为 <strong>指数界（exponentialbound)</strong> 。</p>
+<p>与大$O$记法相伴的有小$o$记法。大$O$记法指一个函数渐近地不大于另一个函数。要说一个函数渐近地小于另一个函数，用小$o$记法。</p>
+<h2 id="分析算法"><a href="#分析算法" class="headerlink" title="分析算法"></a>分析算法</h2><h2 id="P类"><a href="#P类" class="headerlink" title="P类"></a>P类</h2><p>一方面，问题的时间复杂性在确定型单带和多带图灵机上揚多是平方或多项式的差异；另一方面，在确定型和非确定型图灵机上，问题的时间复杂性最多是指数的差异。</p>
+<h3 id="多项式时间"><a href="#多项式时间" class="headerlink" title="多项式时间"></a>多项式时间</h3><p>所有合理的确定型计算模型都是 <strong>多项式等价的(polynomially equivalent)</strong> ，也就是说，它们中任何一个模型都可以模拟另一个，而运行时间只增长多项式倍。</p>
+<p>$P$是确定型单带图灵机在多项式时间内可判定的语言类。在理论中，$P$类扮演核心的角色，它的重要性在于：</p>
+<ol>
+<li>对于所有与确定型单带图灵机多项式等价的计算模型来说，$P$是不变的。</li>
+<li>$P$大致对应于在计算机上实际可解的那一类问题。</li>
+</ol>
+<p>第1条表明，在数学上，$P$是一个稳健的类，它不受所采用的具体计算模型的影响。<br>第2条表明，从实用的观点看，$P$是恰当的。当一个问题在$P$中的时候，就有办法在时间$n^k(k是常数)$内求解它。</p>
+<h3 id="P中的问题举例"><a href="#P中的问题举例" class="headerlink" title="P中的问题举例"></a>P中的问题举例</h3><p><strong>每一个上下文无关语言都是P的成员。</strong></p>
+<h2 id="NP类"><a href="#NP类" class="headerlink" title="NP类"></a>NP类</h2><p>许多问题可以避免蛮力搜索而获得多项式时间解法。但是，在某些其他问题中，包括许多有趣而有用的问题，避免蛮力搜索的努力还没有成功，求解它们的多项式时间算法还没有找到。</p>
+<p>$NP$即 <strong>非确定型多项式时间（nondeterministic polynomial time)</strong>，来源于使用非确定型多项式时间图灵机的另一特征。在NP中的问题有时被称为NP问题。</p>
+<p><strong>一个语言在NP中，当且仅当它能被某个非确定型多项式时间图灵机判定。</strong></p>
+<h3 id="P与NP问题"><a href="#P与NP问题" class="headerlink" title="P与NP问题"></a>P与NP问题</h3><p>P=成员资格可以快速地 <strong>判定</strong> 的语言类。<br>NP=成员资格可以快速地 <strong>验证</strong> 的语言类。</p>
+<p><em>P=NP是否成立的问题是理论计算机科学和当代数学中最大的悬而未决的问题之一。如果这两个类相等，那么所有多项式可验E的问题都将是多项式可判定的。大多数研究者相信这两个类是不相等的，因为人们已经投人了大量的精力为NP中的某些问题寻找多项式时间算法，但没人取得成功。研究者还试图证明这两个类是不相等的，但是这要求证明不存在快速算法来代替蛮力搜索。目前科学研究还无法做到这一步。</em></p>
+<p><img src="assets/8-时间复杂性-1029c.png" alt=""></p>
+<h2 id="NP完全性"><a href="#NP完全性" class="headerlink" title="NP完全性"></a>NP完全性</h2><p>在P与NP问题上的一个重大进展是在20世纪70年代初由斯蒂芬•库克(Stephen Cook)和列奥尼德•列文(Leonid Levin)完成的。他们发现 <strong>NP中的某些问题的复杂性与整个类的复杂性相关联</strong>。这些问题中任何一个如果存在多项式时间算法，那么所有NP问题都是多项式时间可解的。这些问题称为 <strong>NP完全的（NP-complete)</strong> 。</p>
+<p>在理论方面，试图证明P不等于NP的研究者可以把注意力集中到一个NP完全问题上。如果NP中的某个问题需要多于多项式时间，那么NP完全问题也一定如此。而且，试图证明P等于NP的研究者只霈为一个NP完全问题找到多项式时间算法就可以达到目的了。</p>
+<p>在实践方面，NP完全性现象可以防止为某一具体问题浪费时间，寻找本不存在的多项式时间算法。虽然，可能缺乏足够的数学依据来证明该问题在多项式时间内不可解，但是我们相信P不等于NP，所以，证明一个问题是NP完全的，就成为它的非多项式性的一个强有力的证据。</p>
+<h3 id="多项式时间可归约性"><a href="#多项式时间可归约性" class="headerlink" title="多项式时间可归约性"></a>多项式时间可归约性</h3><h3 id="NP完全性的定义"><a href="#NP完全性的定义" class="headerlink" title="NP完全性的定义"></a>NP完全性的定义</h3>
+            
+            
+            <blockquote>
+            <p>转载请注明：转载自<a href="https://srzyhead.github.io" >srzyhead</a>的博客(https://srzyhead.github.io)</p>
+            <p>本文链接地址: <a href="https://srzyhead.github.io/2016/12/08/计算理论导引/8-时间复杂性/">计算理论导引 (8-时间复杂性)</a></p>
+            </blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/计算理论/">计算理论</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/计算理论导引/7-可计算性理论高级专题/"  data-tooltip="计算理论导引 (7-可计算性理论的高级专题)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/计算理论导引/9-空间复杂性/" data-tooltip="计算理论导引 (9-空间复杂性)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/计算理论导引/8-时间复杂性/&amp;title=计算理论导引 (8-时间复杂性)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/计算理论导引/8-时间复杂性/&amp;title=计算理论导引 (8-时间复杂性)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-计算理论导引/8-时间复杂性" data-title="计算理论导引 (8-时间复杂性)" data-url="https://srzyhead.github.io/2016/12/08/计算理论导引/8-时间复杂性/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'undefined'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </section>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<span class="copyrights">
+        Copyrights &copy; 2017 <a href="https://srzyhead.github.io" >srzyhead</a>. All Rights Reserved.
+    </span>
+    <div class="visit">
+        <span id="busuanzi_container_site_pv" style='display:none'>
+            <span id="site-visit" title="visit_counter.site"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+            </span>
+        </span>
+        <span>| </span>
+        <span id="busuanzi_container_page_pv" style='display:none'>
+            <span id="page-visit"  title="visit_counter.page"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+            </span>
+        </span>
+    </div
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/计算理论导引/7-可计算性理论高级专题/"  data-tooltip="计算理论导引 (7-可计算性理论的高级专题)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/计算理论导引/9-空间复杂性/" data-tooltip="计算理论导引 (9-空间复杂性)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/计算理论导引/8-时间复杂性/&amp;title=计算理论导引 (8-时间复杂性)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/计算理论导引/8-时间复杂性/&amp;title=计算理论导引 (8-时间复杂性)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/计算理论导引/8-时间复杂性/&amp;title=计算理论导引 (8-时间复杂性)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/计算理论导引/8-时间复杂性/&amp;title=计算理论导引 (8-时间复杂性)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+        <a href="/">
+            <img id="about-card-picture" src="/assets/images/avatar.jpg"/>
+        </a>
+        
+        <a href="/">
+            <h4 id="about-card-name">srzyhead</h4>
+        </a>
+        
+            <div id="about-card-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Tianjin，China
+            </div>
+        
+    </div>
+</div>
+
+        <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    autofocus="autofocus"/>
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
+                            <h3 class="media-heading">深入理解Java虚拟机 (12-Java内存模型与线程)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/12-总结/">
+                            <h3 class="media-heading">微服务设计 (12-总结)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/1-简介/">
+                            <h3 class="media-heading">Latex学习笔记 (1-简介)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/2-入门/">
+                            <h3 class="media-heading">Latex学习笔记 (2-入门)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/3-字体/">
+                            <h3 class="media-heading">Latex学习笔记 (3-字体)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
+                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
+                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/3-设计方法/">
+                            <h3 class="media-heading">java虚拟机并发编程 (3-设计方法)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/">
+                            <h3 class="media-heading">java虚拟机并发编程 (4-可扩展性和线程安全)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
+                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="no post found"
+                data-message-one="1 post found"
+                data-message-other="{n} posts found">
+                60 posts found
+            </p>
+        </div>
+    </div>
+</div>
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+<script type="text/javascript">      
+     var search_path = "null";
+     if (search_path.length == 0) {
+        search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('EBQOF50CPE', '17c826d1e565fdb29e51bd6176350041');
+        var algoliaIndex = algoliaClient.initIndex('srzyhead-blog');
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/tomorrow.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+</html>

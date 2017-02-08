@@ -1,0 +1,841 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="srzyhead&#39;s blog">
+    <title>线性代数导论 (2-Solving Linear Equations) | srzyhead&#39;s blog</title>
+    <meta name="author" content="srzyhead">
+    
+        <meta name="keywords" content="hexo,javascript,">
+    
+    
+    
+    <meta name="description" content="Solving Linear EquationsVectors and Linear Equations
+The row picture shows tow lines meeting at a single point(solution).
+
+The column picture combines the column vectors on the left side to product th">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="线性代数导论 (2-Solving Linear Equations)">
+<meta property="og:url" content="https://srzyhead.github.io/2016/12/08/线性代数导论/2-Solving_Linear_Equations/index.html">
+<meta property="og:site_name" content="srzyhead's blog">
+<meta property="og:description" content="Solving Linear EquationsVectors and Linear Equations
+The row picture shows tow lines meeting at a single point(solution).
+
+The column picture combines the column vectors on the left side to product th">
+<meta property="og:image" content="https://srzyhead.github.io/assets/2-Solving_Linear_Equations-f9c99.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/2-Solving_Linear_Equations-dfe12.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/2-Solving_Linear_Equations-44098.png">
+<meta property="og:updated_time" content="2017-02-08T15:51:26.280Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线性代数导论 (2-Solving Linear Equations)">
+<meta name="twitter:description" content="Solving Linear EquationsVectors and Linear Equations
+The row picture shows tow lines meeting at a single point(solution).
+
+The column picture combines the column vectors on the left side to product th">
+<meta name="twitter:image" content="https://srzyhead.github.io/assets/2-Solving_Linear_Equations-f9c99.png">
+<meta name="twitter:creator" content="@srzyhead0310">
+    
+        <meta rel="publisher" content="https://plus.google.com/102811857381566040000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://srzyhead.github.io/assets/images/avatar.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ae7e31cd7a3258c5af68e7920915078d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">srzyhead&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">srzyhead</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:&#115;&#114;&#122;&#121;&#104;&#101;&#97;&#100;&#48;&#51;&#49;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="tencent://message/?menu=yes&uin=316324216&websitename=im.qq.com" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-qq"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/srzyhead" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/srzyhead0310" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="3" style="background-color: rgba(255, 255, 255, 0.85);"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            线性代数导论 (2-Solving Linear Equations)
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/数学/">数学</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:51:26 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h1 id="Solving-Linear-Equations"><a href="#Solving-Linear-Equations" class="headerlink" title="Solving Linear Equations"></a>Solving Linear Equations</h1><h2 id="Vectors-and-Linear-Equations"><a href="#Vectors-and-Linear-Equations" class="headerlink" title="Vectors and Linear Equations"></a>Vectors and Linear Equations</h2><p><img src="assets/2-Solving_Linear_Equations-f9c99.png" alt=""></p>
+<p><strong>The row picture</strong> shows tow lines meeting at a single point(solution).</p>
+<p><img src="assets/2-Solving_Linear_Equations-dfe12.png" alt=""></p>
+<p><strong>The column picture</strong> combines the column vectors on the left side to product the vector $b$ on the right side.</p>
+<p><strong>The Matrix Form of the Equations</strong>  $Ax=b$</p>
+<p>Multiplication by rows : $Ax$ comes from dot products, each row times the column $x$ :<br>$$<br>Ax =<br>\begin{bmatrix}<br>(row1) \cdot x \<br>(row2) \cdot x \<br>(row3) \cdot x \<br>\end{bmatrix}<br>$$</p>
+<p>Multiplication by columns $Ax$ is <strong>a combination of column vectors</strong> :</p>
+<p>$$<br>Ax = x\ (column\ 1) + y\ (column\ 2) + z\ (column \ 3)<br>$$</p>
+<p><img src="assets/2-Solving_Linear_Equations-44098.png" alt=""></p>
+<p>消元的几何意义是坐标系的变换</p>
+<h2 id="The-idea-of-Elimination"><a href="#The-idea-of-Elimination" class="headerlink" title="The idea of Elimination"></a>The idea of Elimination</h2><p><strong>Pivot</strong> first nonzero in the row that does the elimination.</p>
+<p>$$Ax=b \quad \Rightarrow \quad Ux=c $$</p>
+<h2 id="Elimination-Using-Matrices"><a href="#Elimination-Using-Matrices" class="headerlink" title="Elimination Using Matrices"></a>Elimination Using Matrices</h2><p><strong>$Ax$ is a combination of the column of $A$.</strong></p>
+<p>Components of $Ax$ are dot products with rows of $A$.</p>
+<h3 id="Matrix-Multiplication"><a href="#Matrix-Multiplication" class="headerlink" title="Matrix Multiplication"></a>Matrix Multiplication</h3><p><em>Associative law is true</em> $A(BC)=(AB)C$<br><em>Commutative law is false</em> $Often\ AB≠BA$</p>
+<h3 id="Permutation-Matrix"><a href="#Permutation-Matrix" class="headerlink" title="Permutation Matrix"></a>Permutation Matrix</h3><p>$P_{ij}$ is the identify matrix with row $i$ and $j$ reversed.</p>
+<h3 id="Augmented-Matrix"><a href="#Augmented-Matrix" class="headerlink" title="Augmented Matrix"></a>Augmented Matrix</h3><p><strong>Augmented Matrix</strong> include $b$ as an extra column and follow it through elimination.</p>
+<h2 id="Rules-for-Matrix-Operations"><a href="#Rules-for-Matrix-Operations" class="headerlink" title="Rules for Matrix Operations"></a>Rules for Matrix Operations</h2><p>The entry in row $i$ and column $j$ is called <strong>$a_{ij}$</strong> or <strong>$A(i, j)$</strong></p>
+<h3 id="Rows-and-Columns-of-AB"><a href="#Rows-and-Columns-of-AB" class="headerlink" title="Rows and Columns of $AB$"></a>Rows and Columns of $AB$</h3><p>Each column of $AB$ is a combination of the columns of $A$.</p>
+<h3 id="The-Laws-for-Matrix-Operations"><a href="#The-Laws-for-Matrix-Operations" class="headerlink" title="The Laws for Matrix Operations"></a>The Laws for Matrix Operations</h3><p>$AB≠BA$ (the commutative “law” is usually broke)<br>$C(A + B) = CA + CB$ (distributive law from the left)<br>$(A + B)C = AC + BC$ (distributive law from the right)<br>$A(BC)=(AB)C$ (associative law for ABC)</p>
+<h3 id="Block-Matrices-and-Block-Multiplication"><a href="#Block-Matrices-and-Block-Multiplication" class="headerlink" title="Block Matrices and Block Multiplication"></a>Block Matrices and Block Multiplication</h3><p>Suppose $A, B, C, D$ are respectively $p×p$, $p×q$, $q×p$ and $q×q$ matrices, and $D$ is invertible.</p>
+<p>$$<br>\begin{bmatrix}<br>A &amp; B \<br>C &amp; D \<br>\end{bmatrix}<br>=<br>\begin{bmatrix}<br>I_p &amp; BD^{-1} \<br>0 &amp; I_q \<br>\end{bmatrix}<br>\begin{bmatrix}<br>A-BD^{-1}C &amp; 0 \<br>0 &amp; D \<br>\end{bmatrix}<br>\begin{bmatrix}<br>I_p &amp; 0 \<br>D^{-1}C &amp; I_q \<br>\end{bmatrix}<br>$$</p>
+<p> the <strong>Schur complement</strong> of the block $D$ of the matrix $M$ is the $p×p$ matrix $A-BD^{-1}C$</p>
+<p><a href="https://en.wikipedia.org/wiki/Schur_complement" target="_blank" rel="external">reference</a></p>
+<h2 id="Inverse-Matrices"><a href="#Inverse-Matrices" class="headerlink" title="Inverse Matrices"></a>Inverse Matrices</h2><p>The matrix $A$ is <strong>invertible</strong> if there exists a matrix $A^{-1}$ such that $$A^{-1}A=I$$ and $$AA^{-1}=I$$</p>
+<p>elimination produces n pivots $⇔$ the inverse exists $⇔$ non-singular matrix</p>
+<h3 id="The-Inverse-of-a-Product-AB"><a href="#The-Inverse-of-a-Product-AB" class="headerlink" title="The Inverse of a Product $AB$"></a>The Inverse of a Product $AB$</h3><p>$$(AB)^{-1}=B^{-1}A^{-1}$$</p>
+<h3 id="Gauss-Jordan-Elimination"><a href="#Gauss-Jordan-Elimination" class="headerlink" title="Gauss-Jordan Elimination"></a>Gauss-Jordan Elimination</h3><p>Multiply $\begin{bmatrix} A &amp; I \end{bmatrix}$ by $A^{-1}$ to get $\begin{bmatrix} I &amp; A^{-1} \end{bmatrix}$</p>
+<p>A square matrix is called <strong>lower triangular matrix</strong> if all the entries above the main diagonal are zero. Similarly, a square matrix is called <strong>upper triangular matrix</strong> if all the entries below the main diagonal are zero.A <strong>triangular matrix</strong> is one that is either lower triangular or upper triangular. A matrix that is both upper and lower triangular is called a <strong>diagonal matrix</strong>.</p>
+<p><em>A triangular matrix is invertible if and only if no diagonal entries are zero</em></p>
+<h2 id="Elimination-Factorization-A-LU"><a href="#Elimination-Factorization-A-LU" class="headerlink" title="Elimination = Factorization: $A = LU$"></a>Elimination = Factorization: $A = LU$</h2><p>The factors $L$ and $U$ are triangular matrices. The factorization that comes from elimination is $A = LU$ or $A=LDU$. This is elimination without row exchanges.</p>
+<h2 id="Transposes-and-Permutations"><a href="#Transposes-and-Permutations" class="headerlink" title="Transposes and Permutations"></a>Transposes and Permutations</h2><p>The entry in row i, column j of AT comes from row j, column i of the original A : $(A^T)<em>{ij}=A</em>{ji}$</p>
+<ul>
+<li>Sum</li>
+</ul>
+<p>$$A+B=A^T+B^T$$</p>
+<ul>
+<li>Product</li>
+</ul>
+<p>$$(AB)^T=B^TA^T$$</p>
+<ul>
+<li>Inverse</li>
+</ul>
+<p>$$(A^{-1})^T=(A^{T})^{-1}$$</p>
+<h3 id="The-Meaning-of-Inner-Products"><a href="#The-Meaning-of-Inner-Products" class="headerlink" title="The Meaning of Inner Products"></a>The Meaning of Inner Products</h3><p>The dot product or inner product is $x^Ty$ (1 x n) (n x 1)</p>
+<p>The rank one product or outer product is $xy^T$ (n x 1) (1 x n)</p>
+<p>$x^Ty$ is a number, $xy^T$ is a matrix.</p>
+<h3 id="Symmetric-Matrices"><a href="#Symmetric-Matrices" class="headerlink" title="Symmetric Matrices"></a>Symmetric Matrices</h3><p>A <strong>symmetric matrix</strong> has $A^T=A$</p>
+<p><em>The inverse of a symmetric matrix is also symmetric.</em></p>
+<h3 id="Symmetric-Products-R-TR-and-RR-T-and-LDL-T"><a href="#Symmetric-Products-R-TR-and-RR-T-and-LDL-T" class="headerlink" title="Symmetric Products $R^TR$ and $RR^T$ and $LDL^T$"></a>Symmetric Products $R^TR$ and $RR^T$ and $LDL^T$</h3><p>The transpose of $R^TR$ is $R^T(R^T)^T$ which is $R^TR$</p>
+<p>The symmetric factorization of a symmetric matrix is $A = LDL^T$</p>
+<h3 id="Permutation-Matrices"><a href="#Permutation-Matrices" class="headerlink" title="Permutation Matrices"></a>Permutation Matrices</h3><p>A <strong>permutation matrix</strong> $P$ has the rows of the identify $I$ in any order.</p>
+<p>$$P^T = P^{-1}$$</p>
+<h3 id="The-PA-LU-Factorization-with-Row-Exchanges"><a href="#The-PA-LU-Factorization-with-Row-Exchanges" class="headerlink" title="The $PA = LU$ Factorization with Row Exchanges"></a>The $PA = LU$ Factorization with Row Exchanges</h3><p>If $A$ is invertible then a permutation $P$ will reorder its rows for $PA = LU$</p>
+
+            
+            
+            <blockquote>
+            <p>转载请注明：转载自<a href="https://srzyhead.github.io" >srzyhead</a>的博客(https://srzyhead.github.io)</p>
+            <p>本文链接地址: <a href="https://srzyhead.github.io/2016/12/08/线性代数导论/2-Solving_Linear_Equations/">线性代数导论 (2-Solving Linear Equations)</a></p>
+            </blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/线性代数/">线性代数</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/深入理解Java虚拟机/9-类加载及执行子系统的案例与实战/"  data-tooltip="深入理解Java虚拟机 (9-类加载及执行子系统的案例与实战)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/线性代数导论/3-Vector_Spaces_and_Subspaces/" data-tooltip="线性代数导论 (3-Vector Spaces and Subspaces)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/线性代数导论/2-Solving_Linear_Equations/&amp;title=线性代数导论 (2-Solving Linear Equations)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/线性代数导论/2-Solving_Linear_Equations/&amp;title=线性代数导论 (2-Solving Linear Equations)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-线性代数导论/2-Solving_Linear_Equations" data-title="线性代数导论 (2-Solving Linear Equations)" data-url="https://srzyhead.github.io/2016/12/08/线性代数导论/2-Solving_Linear_Equations/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'undefined'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </section>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<span class="copyrights">
+        Copyrights &copy; 2017 <a href="https://srzyhead.github.io" >srzyhead</a>. All Rights Reserved.
+    </span>
+    <div class="visit">
+        <span id="busuanzi_container_site_pv" style='display:none'>
+            <span id="site-visit" title="visit_counter.site"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+            </span>
+        </span>
+        <span>| </span>
+        <span id="busuanzi_container_page_pv" style='display:none'>
+            <span id="page-visit"  title="visit_counter.page"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+            </span>
+        </span>
+    </div
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/深入理解Java虚拟机/9-类加载及执行子系统的案例与实战/"  data-tooltip="深入理解Java虚拟机 (9-类加载及执行子系统的案例与实战)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/线性代数导论/3-Vector_Spaces_and_Subspaces/" data-tooltip="线性代数导论 (3-Vector Spaces and Subspaces)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/线性代数导论/2-Solving_Linear_Equations/&amp;title=线性代数导论 (2-Solving Linear Equations)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/线性代数导论/2-Solving_Linear_Equations/&amp;title=线性代数导论 (2-Solving Linear Equations)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/线性代数导论/2-Solving_Linear_Equations/&amp;title=线性代数导论 (2-Solving Linear Equations)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/线性代数导论/2-Solving_Linear_Equations/&amp;title=线性代数导论 (2-Solving Linear Equations)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+        <a href="/">
+            <img id="about-card-picture" src="/assets/images/avatar.jpg"/>
+        </a>
+        
+        <a href="/">
+            <h4 id="about-card-name">srzyhead</h4>
+        </a>
+        
+            <div id="about-card-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Tianjin，China
+            </div>
+        
+    </div>
+</div>
+
+        <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    autofocus="autofocus"/>
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
+                            <h3 class="media-heading">深入理解Java虚拟机 (12-Java内存模型与线程)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/12-总结/">
+                            <h3 class="media-heading">微服务设计 (12-总结)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/1-简介/">
+                            <h3 class="media-heading">Latex学习笔记 (1-简介)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/2-入门/">
+                            <h3 class="media-heading">Latex学习笔记 (2-入门)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/3-字体/">
+                            <h3 class="media-heading">Latex学习笔记 (3-字体)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
+                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
+                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/3-设计方法/">
+                            <h3 class="media-heading">java虚拟机并发编程 (3-设计方法)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/">
+                            <h3 class="media-heading">java虚拟机并发编程 (4-可扩展性和线程安全)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
+                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="no post found"
+                data-message-one="1 post found"
+                data-message-other="{n} posts found">
+                60 posts found
+            </p>
+        </div>
+    </div>
+</div>
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+<script type="text/javascript">      
+     var search_path = "null";
+     if (search_path.length == 0) {
+        search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('EBQOF50CPE', '17c826d1e565fdb29e51bd6176350041');
+        var algoliaIndex = algoliaClient.initIndex('srzyhead-blog');
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/tomorrow.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+</html>

@@ -1,0 +1,879 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="srzyhead&#39;s blog">
+    <title>计算理论导引 (2-正则语言) | srzyhead&#39;s blog</title>
+    <meta name="author" content="srzyhead">
+    
+        <meta name="keywords" content="hexo,javascript,">
+    
+    
+    
+    <meta name="description" content="正则语言计算模型（Computational Model)
+有穷自动机有穷状态机(Finite State Machine) 是描述能力和资源极其有限的计算机的模型。
+有穷自动机和与之对应的 马尔科夫链（Markov Chains) 常用于识别数据中的模式。
+状态图(State Diagram)
+
+从一个状态指向另一个状态的箭头称为 转移 。
+有穷自动机的形式化定义有穷自动机是一个5元组$(Q,Σ">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="计算理论导引 (2-正则语言)">
+<meta property="og:url" content="https://srzyhead.github.io/2016/12/08/计算理论导引/2-正则语言/index.html">
+<meta property="og:site_name" content="srzyhead's blog">
+<meta property="og:description" content="正则语言计算模型（Computational Model)
+有穷自动机有穷状态机(Finite State Machine) 是描述能力和资源极其有限的计算机的模型。
+有穷自动机和与之对应的 马尔科夫链（Markov Chains) 常用于识别数据中的模式。
+状态图(State Diagram)
+
+从一个状态指向另一个状态的箭头称为 转移 。
+有穷自动机的形式化定义有穷自动机是一个5元组$(Q,Σ">
+<meta property="og:image" content="https://srzyhead.github.io/assets/2-正则语言-f11e7.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/2-正则语言-bff02.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/2-正则语言-bb310.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/2-正则语言-eb0e5.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/2-正则语言-47d16.png">
+<meta property="og:image" content="https://srzyhead.github.io/assets/2-正则语言-c5c50.png">
+<meta property="og:updated_time" content="2017-02-08T15:48:42.528Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算理论导引 (2-正则语言)">
+<meta name="twitter:description" content="正则语言计算模型（Computational Model)
+有穷自动机有穷状态机(Finite State Machine) 是描述能力和资源极其有限的计算机的模型。
+有穷自动机和与之对应的 马尔科夫链（Markov Chains) 常用于识别数据中的模式。
+状态图(State Diagram)
+
+从一个状态指向另一个状态的箭头称为 转移 。
+有穷自动机的形式化定义有穷自动机是一个5元组$(Q,Σ">
+<meta name="twitter:image" content="https://srzyhead.github.io/assets/2-正则语言-f11e7.png">
+<meta name="twitter:creator" content="@srzyhead0310">
+    
+        <meta rel="publisher" content="https://plus.google.com/102811857381566040000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://srzyhead.github.io/assets/images/avatar.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ae7e31cd7a3258c5af68e7920915078d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">srzyhead&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">srzyhead</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:&#115;&#114;&#122;&#121;&#104;&#101;&#97;&#100;&#48;&#51;&#49;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="tencent://message/?menu=yes&uin=316324216&websitename=im.qq.com" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-qq"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/srzyhead" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/srzyhead0310" target="_blank">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="3" style="background-color: rgba(255, 255, 255, 0.85);"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            计算理论导引 (2-正则语言)
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/计算机科学/">计算机科学</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:48:42 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h1 id="正则语言"><a href="#正则语言" class="headerlink" title="正则语言"></a>正则语言</h1><p>计算模型（Computational Model)</p>
+<h2 id="有穷自动机"><a href="#有穷自动机" class="headerlink" title="有穷自动机"></a>有穷自动机</h2><p><strong>有穷状态机(Finite State Machine)</strong> 是描述能力和资源极其有限的计算机的模型。</p>
+<p>有穷自动机和与之对应的 <strong>马尔科夫链（Markov Chains)</strong> 常用于识别数据中的模式。</p>
+<p><strong>状态图(State Diagram)</strong></p>
+<p><img src="assets/2-正则语言-f11e7.png" alt=""></p>
+<p>从一个状态指向另一个状态的箭头称为 <strong>转移</strong> 。</p>
+<h3 id="有穷自动机的形式化定义"><a href="#有穷自动机的形式化定义" class="headerlink" title="有穷自动机的形式化定义"></a>有穷自动机的形式化定义</h3><p>有穷自动机是一个5元组$(Q,Σ,δ,q_0,F)$，其中</p>
+<ol>
+<li>$Q$是一个有穷集合，称为状态集。</li>
+<li>$Σ$是一个有穷集合，称为字母表。</li>
+<li>$δ：Q×Σ→Q$是转移函数。</li>
+<li>$q_0∈Q$是起始状态。</li>
+<li>$F⊆Q$是接受状态集。</li>
+</ol>
+<p>若A是机器M接受的全部字符串集，则称A是机器M的 <strong>语言</strong>，记作L(M)=A。又称 <strong>M识别A</strong> 或 <strong>M接受A</strong> 。一台机器可能接受若干字符串，但是它永远只能识别一个语言。如果机器不接受任何字符串，那么它仍然识别一个语言，即空语言∅。</p>
+<h3 id="计算的形式化定义"><a href="#计算的形式化定义" class="headerlink" title="计算的形式化定义"></a>计算的形式化定义</h3><p>设$M=(Q,Σ,δ,q_0,F)$是一台有穷自动机，$w=w_1w_2…w_n$是一个字符串并且其中任一$w$是字母表$Σ$的成员。如果存在$Q$中的状态序列$r_0,r_1,…,r_n$，满足下述条件:</p>
+<ol>
+<li>$r_0 = q_0$</li>
+<li>$δ(r<em>i,w</em>{i+1}) = r_{i+1} , i = 0,…, n-1$</li>
+<li>$r_n ∈ F$</li>
+</ol>
+<p>则$M$接受$w$。</p>
+<p>如果一个语言被一台有穷自动机识别，则称它是 <strong>正则语言</strong> （regular language)</p>
+<h3 id="设计有穷自动机"><a href="#设计有穷自动机" class="headerlink" title="设计有穷自动机"></a>设计有穷自动机</h3><p><img src="assets/2-正则语言-bff02.png" alt=""></p>
+<h3 id="正则运算"><a href="#正则运算" class="headerlink" title="正则运算"></a>正则运算</h3><p>在算术中，基本对象是数，工具是处理数的运算，如+和×。在计算理论中，对象是语言，工具包括为处理语言专门设计的运箅。定义语言的三种运算，称为正则运算（regular operation),并且使用这些运算来研究正则语言的性质。</p>
+<p>设A和B是两个语言，定义正则运算并（union)、连结（concatenation)和星号(star)如下:</p>
+<ul>
+<li><strong>并</strong> ： $A∪B={ x|x∈A或x∈B }$</li>
+<li><strong>连结</strong> ：$A○B={ xy | x∈A且x∈B }$</li>
+<li><strong>星号</strong> ：$A^* = {x_1x_2x_3 \dots x_k|k≥0且每一个x_i∈A}$</li>
+</ul>
+<p>星号运算是一元运算（unary operation)而不是二元运算（binary operation)。它把A中的任意个字符串连结在一起得到新语言中的一个字符串。因为“任意个”包括0个在内，所以不管$A$是什么，空串$ε$总是 $A^* $ 的一个成员。</p>
+<p>如果把某种运算应用于一个对象集合的成员得到的对象仍在这个集合中，则称这个对象集合在该运算下 <strong>封闭</strong> 。</p>
+<p><strong>正则语言类在并运算下封闭。</strong></p>
+<h2 id="非确定性"><a href="#非确定性" class="headerlink" title="非确定性"></a>非确定性</h2><p><strong>DFA</strong>，Deterministic Finite Automata，确定的有限状态自动机。<br><strong>NFA</strong>，Nondeterministic Finite Automata，不确定的有限状态自动机。</p>
+<p>DFA的每一个状态对于字母表中的每一个符号总是恰好有一个转移箭头射出。</p>
+<p>在NFA中，一个状态对于字母表中的每一个符号可能有0个、1个或多个射出的箭头。</p>
+<blockquote>
+<p>NTA计算方式<br>把非确定性计算看作一棵可能性的树。树根对应计算的开始，树中的每一个分支点对应计算中机器有多种选择的点。如果计算分支中至少有一个结束在接受状态，则机器接受。<br><img src="assets/2-正则语言-bb310.png" alt=""></p>
+</blockquote>
+<p>下图中的NFA $N_3$，它的输人字母表${0}$由一个符号组成。只含一个符号的字母表称为一元字母表。</p>
+<p>这台机器说明了有$ε$箭头的方便之处。它接受所有形如$0^k$的字符串，其中$k$是2或3的倍数(注意上标表示重复，不是数值的指数）。</p>
+<h3 id="非确定型有穷自动机的形式化定义"><a href="#非确定型有穷自动机的形式化定义" class="headerlink" title="非确定型有穷自动机的形式化定义"></a>非确定型有穷自动机的形式化定义</h3><p>NFA与DFA本质差别，转移函数不同。在DFA中，转移函数取一个状态和一个输入符号，产生下一个状态。在NFA中，转移函数取一个状态和一个输入符号或者空串，产生可能的下一个状态的集合。</p>
+<p>对任意的集合$Q$，记$P(Q)$为$Q$的所有子集组成的集合。这里称$P(Q)$是$Q$的幂集。</p>
+<p>对任意的字母表$Σ$,把$Σ∪{ε}$记作$Σ_ε$</p>
+<p>非确定型有穷自动机是一个5元组$(Q,Σ,δ,q_0,F)$，其中</p>
+<ol>
+<li>$Q$是一个有穷的状态集。</li>
+<li>$Σ$是一个有穷的字母表。</li>
+<li>$δ：Q×Σ_ ε→P(Q)$ 是转移函数。</li>
+<li>$q_0∈Q$是起始状态。</li>
+<li>$F⊆Q$是接受状态集。</li>
+</ol>
+<h2 id="NFA与DFA的等价性"><a href="#NFA与DFA的等价性" class="headerlink" title="NFA与DFA的等价性"></a>NFA与DFA的等价性</h2><p>定理: <strong>每一台非确定型有穷自动机都等价于某一台确定型有穷自动机。</strong></p>
+<h3 id="在正则运算下的封闭性"><a href="#在正则运算下的封闭性" class="headerlink" title="在正则运算下的封闭性"></a>在正则运算下的封闭性</h3><p>定理: <strong>正则语言类在并运算下封闭。</strong></p>
+<p>并运算证明示意图<br><img src="assets/2-正则语言-eb0e5.png" alt=""></p>
+<p>连结运算证明示意图<br><img src="assets/2-正则语言-47d16.png" alt=""></p>
+<p>星号运算证明示意图<br><img src="assets/2-正则语言-c5c50.png" alt=""></p>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><h3 id="正则表达式的形式化定义"><a href="#正则表达式的形式化定义" class="headerlink" title="正则表达式的形式化定义"></a>正则表达式的形式化定义</h3><p>称$R$是一个正则表达式，如果$R$是:</p>
+<ol>
+<li>这里$a$是字母表$Σ$中的一个元素</li>
+<li>$ε$</li>
+<li>$\varnothing$</li>
+<li>$(R_1∪R_2)$，这里R_1 2)，这里$R_1$和$R_2$是正则表达式</li>
+<li>$(R_1○R_2)$，这里$R_1$和$R_2$是正则表达式</li>
+<li>$(R_1^* )$，这里$R_1$是正则表达式</li>
+</ol>
+<p>在第1条和第2条中，正则表达式$a$和$e$分别表示语言${a}$和${e}$。在第3条中，正则表达式$\varnothing$表示空语言。</p>
+<p>为便于描述将$RR^<em> $记作$R^+$。换句话说，鉴于$R^</em> $表示由0个或多个$R$中的串连结构成的所有串，$R^+$表示由1个或多个$R$中的串连结构成的所有串。因此$R^+∪ε=R^* $。此外，将$k$个$R$中的中通过连结得到的串简记作$R^k$。</p>
+<h3 id="与有穷自动机的等价性"><a href="#与有穷自动机的等价性" class="headerlink" title="与有穷自动机的等价性"></a>与有穷自动机的等价性</h3><p>任何正则表达式都能够转换成能识别它所描述语言的有穷自动机，反之亦然。</p>
+<p><strong>广义非确定型有穷自动机(Generalized nondeterministic finite automaton)</strong><br>就是非确定型有穷自动机，只是转移箭头可以用任何正则表达式作标号，而不是只能用字母表的成员或e作标号。</p>
+<p>广义非确定型有穷自动机$(Q,Σ,δ,q<em>{start},q</em>{accept})$是一个五元组，其中</p>
+<ol>
+<li>$Q$是一个有穷的状态集。</li>
+<li>$Σ$是一个输入的字母表。</li>
+<li>$δ：(Q-q<em>{accept})×(Q-q</em>{start})→R$ 是转移函数。</li>
+<li>$q_{start}$是起始状态。</li>
+<li>$q_{accept}$是接受状态集。</li>
+</ol>
+<h2 id="非正则语言"><a href="#非正则语言" class="headerlink" title="非正则语言"></a>非正则语言</h2><p>证明非正则性的技术源于一个关于正则语言的定理，通常把它称为泵引理。该定理指出所有的正则语言都有一种特殊的性质。如果能够证明一个语言没有这种性质，则可以保证它不是正则的。这条性质是：语言中的所有字符串只要它的长度不小于某个特定的值——<strong>泵长度</strong>，就可以被“抽取”。它的意思是指每一个这样的字符串都包括一段子串，把这段子串重复任意次，得到的字符串仍在这个语言中。</p>
+
+            
+            
+            <blockquote>
+            <p>转载请注明：转载自<a href="https://srzyhead.github.io" >srzyhead</a>的博客(https://srzyhead.github.io)</p>
+            <p>本文链接地址: <a href="https://srzyhead.github.io/2016/12/08/计算理论导引/2-正则语言/">计算理论导引 (2-正则语言)</a></p>
+            </blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/计算理论/">计算理论</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/计算理论导引/1-绪论/"  data-tooltip="计算理论导引 (1-绪论)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/计算理论导引/3-上下文无关文法/" data-tooltip="计算理论导引 (3-上下文无关文法)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/计算理论导引/2-正则语言/&amp;title=计算理论导引 (2-正则语言)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/计算理论导引/2-正则语言/&amp;title=计算理论导引 (2-正则语言)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-计算理论导引/2-正则语言" data-title="计算理论导引 (2-正则语言)" data-url="https://srzyhead.github.io/2016/12/08/计算理论导引/2-正则语言/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'undefined'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </section>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<span class="copyrights">
+        Copyrights &copy; 2017 <a href="https://srzyhead.github.io" >srzyhead</a>. All Rights Reserved.
+    </span>
+    <div class="visit">
+        <span id="busuanzi_container_site_pv" style='display:none'>
+            <span id="site-visit" title="visit_counter.site"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+            </span>
+        </span>
+        <span>| </span>
+        <span id="busuanzi_container_page_pv" style='display:none'>
+            <span id="page-visit"  title="visit_counter.page"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+            </span>
+        </span>
+    </div
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/计算理论导引/1-绪论/"  data-tooltip="计算理论导引 (1-绪论)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/12/08/计算理论导引/3-上下文无关文法/" data-tooltip="计算理论导引 (3-上下文无关文法)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/计算理论导引/2-正则语言/&amp;title=计算理论导引 (2-正则语言)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/计算理论导引/2-正则语言/&amp;title=计算理论导引 (2-正则语言)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至新浪微博" href="http://www.jiathis.com/send/?webid=tsina&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/计算理论导引/2-正则语言/&amp;title=计算理论导引 (2-正则语言)">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" target="new" data-tooltip="分享至微信" href="http://www.jiathis.com/send/?webid=weixin&amp;appkey=&amp;uid=你的uid&amp;url=https://srzyhead.github.io/2016/12/08/计算理论导引/2-正则语言/&amp;title=计算理论导引 (2-正则语言)">
+                <i class="fa fa-weixin"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+        <a href="/">
+            <img id="about-card-picture" src="/assets/images/avatar.jpg"/>
+        </a>
+        
+        <a href="/">
+            <h4 id="about-card-name">srzyhead</h4>
+        </a>
+        
+            <div id="about-card-bio"><p>Progress is the activity of today and the assurance of tomorrow.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Tianjin，China
+            </div>
+        
+    </div>
+</div>
+
+        <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-close"></i></span>
+            <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    autofocus="autofocus"/>
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
+                            <h3 class="media-heading">深入理解Java虚拟机 (12-Java内存模型与线程)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/12-总结/">
+                            <h3 class="media-heading">微服务设计 (12-总结)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/1-简介/">
+                            <h3 class="media-heading">Latex学习笔记 (1-简介)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/2-入门/">
+                            <h3 class="media-heading">Latex学习笔记 (2-入门)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/Latex学习笔记/3-字体/">
+                            <h3 class="media-heading">Latex学习笔记 (3-字体)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
+                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
+                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/3-设计方法/">
+                            <h3 class="media-heading">java虚拟机并发编程 (3-设计方法)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/">
+                            <h3 class="media-heading">java虚拟机并发编程 (4-可扩展性和线程安全)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
+                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2016
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="no post found"
+                data-message-one="1 post found"
+                data-message-other="{n} posts found">
+                60 posts found
+            </p>
+        </div>
+    </div>
+</div>
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+<script type="text/javascript">      
+     var search_path = "null";
+     if (search_path.length == 0) {
+        search_path = "search.xml";
+     }
+     var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+</script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script>
+        var algoliaClient = algoliasearch('EBQOF50CPE', '17c826d1e565fdb29e51bd6176350041');
+        var algoliaIndex = algoliaClient.initIndex('srzyhead-blog');
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/tomorrow.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+</html>
