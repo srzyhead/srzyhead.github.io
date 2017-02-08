@@ -385,6 +385,76 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/2016/12/08/微服务设计/12-总结/">
+                            微服务设计 (12-总结)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/分布式/">分布式</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:46:21 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    总结微服务的原则
+
+围绕业务概念建模
+
+使用限界上下文来定义可能的领域边界。
+
+接受自动化文化
+
+自动化测试必不可少,因为相比单块系统,确保我们大量的服务能正常工作是一个更复杂的过程。调用一个统一的命令行,以相同的方式把系统部署到各个环境是一个很有用的实践,这也是采用持续交付对每次提交后的产品质量进行快速反馈的一个关键部分。
+
+隐藏内部实现细节
+
+选择与技术无关的API
+
+让一切都去中心化
+
+确保...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/微服务设计/12-总结/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/2016/12/08/微服务设计/11-规模化微服务/">
                             微服务设计 (11-规模化微服务)
                         </a>
@@ -568,63 +638,6 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/3-如何建模服务/">
-                            微服务设计 (3-如何建模服务)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/分布式/">分布式</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:44:07 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    如何建模服务什么样的服务是好服务松耦合 和 高内聚
-限界上下文限界上下文 一个由显式边界限定的特定职责
-共享的隐藏模型对 于 MusicCorp 来说,财务部门和仓库就可以是两个独立的限界上下文。
-有时候,同一个名字在不同的上下文中有着完全不同的含义。比如,退货表示的是客户退回的一些东西。在客户的上下文中,退货意味着打印运送标签、寄送包裹,然后等待退款。在仓库的上下文中,退货表示的是一个即将到来的...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/微服务设计/3-如何建模服务/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
                         <a class="link-unstyled" href="/2016/12/08/微服务设计/10-康威定律和系统设计/">
                             微服务设计 (10-康威定律和系统设计)
                         </a>
@@ -682,8 +695,8 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/6-部署/">
-                            微服务设计 (6-部署)
+                        <a class="link-unstyled" href="/2016/12/08/微服务设计/3-如何建模服务/">
+                            微服务设计 (3-如何建模服务)
                         </a>
                     
                 </h1>
@@ -702,7 +715,7 @@
     
     
         &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:44:58 GMT+0800">
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:44:07 GMT+0800">
         
 		    Feb 08, 2017
     	
@@ -714,24 +727,16 @@
             
                 <div class="postShorten-content" itemprop="articleBody">
                     
-                    部署CI - Continuous Integration , 持续集成
-
-你是否每天签入代码到主线?
-
-你是否有一组测试来验证修改?
-
-当构建失败后,团队是否把修复CI当作第一优先级的事情来做?
-
-
-##　构建流水线和持续交付
-CD - Continuous Delivery ,持续交付
-构建流水线可以很好地跟踪软件构建进度:每完成一个阶段,就离终点更近一步。流水线也能够可视化本次构建物的软件质...<br>
+                    如何建模服务什么样的服务是好服务松耦合 和 高内聚
+限界上下文限界上下文 一个由显式边界限定的特定职责
+共享的隐藏模型对 于 MusicCorp 来说,财务部门和仓库就可以是两个独立的限界上下文。
+有时候,同一个名字在不同的上下文中有着完全不同的含义。比如,退货表示的是客户退回的一些东西。在客户的上下文中,退货意味着打印运送标签、寄送包裹,然后等待退款。在仓库的上下文中,退货表示的是一个即将到来的...<br>
                     
                     
                         
                     
                     
-                       <a href="/2016/12/08/微服务设计/6-部署/" class="postShorten-excerpt_link link">
+                       <a href="/2016/12/08/微服务设计/3-如何建模服务/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -812,8 +817,8 @@ TDD (Test-Driven Design ,测试驱动开发)
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/8-监控/">
-                            微服务设计 (8-监控)
+                        <a class="link-unstyled" href="/2016/12/08/微服务设计/6-部署/">
+                            微服务设计 (6-部署)
                         </a>
                     
                 </h1>
@@ -832,7 +837,7 @@ TDD (Test-Driven Design ,测试驱动开发)
     
     
         &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:45:27 GMT+0800">
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:44:58 GMT+0800">
         
 		    Feb 08, 2017
     	
@@ -844,18 +849,24 @@ TDD (Test-Driven Design ,测试驱动开发)
             
                 <div class="postShorten-content" itemprop="articleBody">
                     
-                    监控多个服务的指标跟踪Graphite之类的指标跟踪工具
-服务指标暴露一切数据,然后依靠指标系统对它们进行处理。
-综合监控Nagios监控告警
-使用 合成事务 来确保系统行为在语义上的正确性,这也是这种技术通常被称为 语义监控 的原因。
-在运行的系统上运行这些测试的子集，作为系统语义监控的一种方式。我们可以在生产环境上设置一组假用户和一些已知的数据集，不过必须确保不会触发意料之外的副作用。
-使用关...<br>
+                    部署CI - Continuous Integration , 持续集成
+
+你是否每天签入代码到主线?
+
+你是否有一组测试来验证修改?
+
+当构建失败后,团队是否把修复CI当作第一优先级的事情来做?
+
+
+##　构建流水线和持续交付
+CD - Continuous Delivery ,持续交付
+构建流水线可以很好地跟踪软件构建进度:每完成一个阶段,就离终点更近一步。流水线也能够可视化本次构建物的软件质...<br>
                     
                     
                         
                     
                     
-                       <a href="/2016/12/08/微服务设计/8-监控/" class="postShorten-excerpt_link link">
+                       <a href="/2016/12/08/微服务设计/6-部署/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -967,8 +978,8 @@ TDD (Test-Driven Design ,测试驱动开发)
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
-                            <h3 class="media-heading">深入理解Java虚拟机 (12-Java内存模型与线程)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/8-监控/">
+                            <h3 class="media-heading">微服务设计 (8-监控)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -986,8 +997,8 @@ TDD (Test-Driven Design ,测试驱动开发)
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/12-总结/">
-                            <h3 class="media-heading">微服务设计 (12-总结)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/计算理论导引/3-上下文无关文法/">
+                            <h3 class="media-heading">计算理论导引 (3-上下文无关文法)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1062,8 +1073,8 @@ TDD (Test-Driven Design ,测试驱动开发)
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
-                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
+                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1081,8 +1092,8 @@ TDD (Test-Driven Design ,测试驱动开发)
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
-                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
+                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1119,8 +1130,8 @@ TDD (Test-Driven Design ,测试驱动开发)
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/">
-                            <h3 class="media-heading">java虚拟机并发编程 (4-可扩展性和线程安全)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
+                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1138,8 +1149,8 @@ TDD (Test-Driven Design ,测试驱动开发)
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
-                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/6-软件事务内存/">
+                            <h3 class="media-heading">java虚拟机并发编程 (6-软件事务内存)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">

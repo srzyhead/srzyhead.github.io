@@ -238,8 +238,8 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/java虚拟机并发编程/6-软件事务内存/">
-                            java虚拟机并发编程 (6-软件事务内存)
+                        <a class="link-unstyled" href="/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/">
+                            java虚拟机并发编程 (4-可扩展性和线程安全)
                         </a>
                     
                 </h1>
@@ -258,7 +258,7 @@
     
     
         &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:33:41 GMT+0800">
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:36:48 GMT+0800">
         
 		    Feb 08, 2017
     	
@@ -270,13 +270,14 @@
             
                 <div class="postShorten-content" itemprop="articleBody">
                     
-                    软件事务内存对象模型的缺陷作为一个java程序员，我们对面向对象的编程(OOP)自然都是烂熟于胸的，但语言也极大地影响了我们对面向对象应用程序的建模方式。现在的OOP已经和AlanKay当初创造这个词时候的初衷大不相同了。他的主要思想是采用消息传递并消灭所有数据(他认为,系统是由一些类似于生物细胞那样的对象构成的,这些对象通过消息传递进行通信,且无需持有任何状态)。随着这一技术的演进,面向对象的语...<br>
+                    可扩展性和线程安全##　用ExecutorService管理线程
+每个ExecutorService都代表一个线程池,其作用是将线程的创建与执行了过程分离开来,而不是将线程的生命周期管理和任务的执行过程绑在一起。我们可以按需配置线程池的类型,单线程的、带缓存的、基于优先级的、按预定时间调度/按周期调度的和固定大小的,待调度任务的等待队列的大小亦可通过代码进行配置。通过这组API,我们可以很容易地调...<br>
                     
                     
                         
                     
                     
-                       <a href="/2016/12/08/java虚拟机并发编程/6-软件事务内存/" class="postShorten-excerpt_link link">
+                       <a href="/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -525,8 +526,8 @@ I/O效率不会随着FD数目的增加而...<br>
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/分布式服务框架-原理与实践/03-通信框架/">
-                            分布式服务框架-原理与实践 (3-通信框架)
+                        <a class="link-unstyled" href="/2016/12/08/从Paxos到ZooKeeper/1-分布式架构/">
+                            从Paxos到ZooKeeper (1-分布式架构)
                         </a>
                     
                 </h1>
@@ -545,7 +546,7 @@ I/O效率不会随着FD数目的增加而...<br>
     
     
         &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:42:53 GMT+0800">
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:39:21 GMT+0800">
         
 		    Feb 08, 2017
     	
@@ -557,24 +558,205 @@ I/O效率不会随着FD数目的增加而...<br>
             
                 <div class="postShorten-content" itemprop="articleBody">
                     
-                    通信框架关键技术点分析长连接还是短连接绝大多数的分布式服务框架(RPC框架)都推荐使用长连接进行内部通信,为什么选择长连接而不是短连接呢?
+                    分布式架构分布式的特点分布式系统是一个硬件或软件组件分布在不同的网络计算机上,彼此之间仅仅通过消息传递进行通信和协调的系统。
 
-相比于短连接,长连接更节省资源
+分布性
 
-远程通信是常态,调用时延是关键指标
+对等性
+
+并发性
+
+缺乏全局时钟
+
+故障总是会发生
 
 
-功能设计可靠性设计链路有效性检测心跳检测机制分为三个层面:
+分布式环境的各种问题
+通信异常
 
-TCP层面的心跳检测,即TCP的FCeep-Alive机制,它的作用域是整个TCP协议栈。
+单机内存访问的延时在纳秒数量级(通常是10ns左右),而正常的一次网络通信的延迟在0.1〜1ms左右(相当于内存访问延时的105〜106倍)
 
-协议层的心跳检测,主要存在于...<br>
+网络分区
+
+当网络由于发生异...<br>
                     
                     
                         
                     
                     
-                       <a href="/2016/12/08/分布式服务框架-原理与实践/03-通信框架/" class="postShorten-excerpt_link link">
+                       <a href="/2016/12/08/从Paxos到ZooKeeper/1-分布式架构/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/从Paxos到ZooKeeper/4-ZooKeeper与Paxos/">
+                            从Paxos到ZooKeeper (4-ZooKeeper与Paxos)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/分布式/">分布式</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:40:29 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    ZooKeeper与PaxosZooKeeper介绍ZooKeeper并没有直接采用Paxos算法,而是采用了一种被称为ZAB(ZooKeeper Atomic Broadcast)的一致性协议。
+ZooKeeper是一个典型的分布式数据一致性的解决方案,分布式应用程序可以基于它实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master选举、分布式锁和分布式队列等功能。Z...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/从Paxos到ZooKeeper/4-ZooKeeper与Paxos/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/从Paxos到ZooKeeper/6-ZooKeeper的典型应用场景/">
+                            从Paxos到ZooKeeper (6-ZooKeeper的典型应用场景)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/分布式/">分布式</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:42:14 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    ZooKeeper的典型应用场景ZooKeeper是一个典型的发布/订阅模式的分布式数据管理与协调框架,开发人员可以使用它来进行分布式数据的发布与订阅。另一方面,通过对ZooKeeper中丰富的数据节点类型进行交叉使用,配合Watcher事件通知机制,可以非常方便地构建一系列分布式应用中都会涉及的核心功能,如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master选举、分布式锁...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/从Paxos到ZooKeeper/6-ZooKeeper的典型应用场景/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/从Paxos到ZooKeeper/2-一致性协议/">
+                            从Paxos到ZooKeeper (2-一致性协议)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/分布式/">分布式</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:39:45 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    一致性协议为了解决分布式一致性问题,在长期的探索研究过程中,涌现出了一大批经典的一致性协议和算法,其中最著名的就是二阶段提交协议、三阶段提交协议和Paxos算法了。
+2PC (Two-Phase Commit)二阶段提交协议是将事务的提交过程分成了两个阶段来进行处理
+
+
+优点:原理简单,实现方便。
+缺点:同步阻塞、单点问题、脑裂、太过保守。
+
+同步阻塞
+
+二阶段提交协议存在的最明显也是最大的一个问...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/从Paxos到ZooKeeper/2-一致性协议/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -637,183 +819,6 @@ TCP层面的心跳检测,即TCP的FCeep-Alive机制,它的作用域是整个TCP�
                     
                     
                        <a href="/2016/12/08/微服务设计/1-什么是微服务/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/10-康威定律和系统设计/">
-                            微服务设计 (10-康威定律和系统设计)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/分布式/">分布式</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:45:58 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    康威定律和系统设计康威定律　任何组织在设计一套系统(广义概念上的系统)时,所交付的设计方案在结构上都与该组织的沟通结构保持一致。
-松耦合组织和紧耦合组织紧耦合组织的一个例子是商业产品公司,他们的员工都在一起工作,并有着一致的愿景和目标;而松耦合组织的典型代表是分布式开源社区。
-组织的耦合度越低,其创建的系统的模块化就越好,耦合也越低;组织的耦合度越高,其创建的系统的模块化也越差。
-服务所有权服务所...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/微服务设计/10-康威定律和系统设计/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/11-规模化微服务/">
-                            微服务设计 (11-规模化微服务)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/分布式/">分布式</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:46:12 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    规模化微服务拥抱故障
-
-非功能需求
-
-响应时间/延迟
-可用性
-数据持久性
-
-
-功能降级对于每个使用多个微服务的面向用户的界面,或每个依赖多个下游合作者的微服务来说,你都需要问自己:“如果这个微服务宕掉会发生什么?”然后你就知道该做什么了。
-架构性安全措施正确地设置超时,实现舱壁隔离不同的连接池,并实现一个断路器 ,以便在第一时间避免给一个不健康的系统发送调用。
-反脆弱的组织混乱猴子(Chaos M...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/微服务设计/11-规模化微服务/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/2-演化式架构师/">
-                            微服务设计 (2-演化式架构师)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/分布式/">分布式</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:43:48 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    演化式架构师不准确的比较架构师的一个重要职责是,确保团队有共同的技术愿景,以帮助我们向客户交付他们想要的系统。在某些场景下,架构师只需要和一个团队一起工作,这时他们等同于技术引领者。在其他情况下,他们要对整个项目的技术愿景负责,通常需要协调多个团队之间,甚至是整个组织内的工作。
-软件并没有类似这种真正的工程师和建筑师在物理规则方面的约束,事实上,我们要创造的东西从设计上来说就是要足够灵活,有很好的...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/微服务设计/2-演化式架构师/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -934,8 +939,8 @@ TCP层面的心跳检测,即TCP的FCeep-Alive机制,它的作用域是整个TCP�
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
-                            <h3 class="media-heading">深入理解Java虚拟机 (12-Java内存模型与线程)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/8-监控/">
+                            <h3 class="media-heading">微服务设计 (8-监控)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -953,8 +958,8 @@ TCP层面的心跳检测,即TCP的FCeep-Alive机制,它的作用域是整个TCP�
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/12-总结/">
-                            <h3 class="media-heading">微服务设计 (12-总结)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/计算理论导引/3-上下文无关文法/">
+                            <h3 class="media-heading">计算理论导引 (3-上下文无关文法)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1029,8 +1034,8 @@ TCP层面的心跳检测,即TCP的FCeep-Alive机制,它的作用域是整个TCP�
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
-                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
+                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1048,8 +1053,8 @@ TCP层面的心跳检测,即TCP的FCeep-Alive机制,它的作用域是整个TCP�
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
-                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
+                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1086,8 +1091,8 @@ TCP层面的心跳检测,即TCP的FCeep-Alive机制,它的作用域是整个TCP�
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/">
-                            <h3 class="media-heading">java虚拟机并发编程 (4-可扩展性和线程安全)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
+                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1105,8 +1110,8 @@ TCP层面的心跳检测,即TCP的FCeep-Alive机制,它的作用域是整个TCP�
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
-                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/6-软件事务内存/">
+                            <h3 class="media-heading">java虚拟机并发编程 (6-软件事务内存)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">

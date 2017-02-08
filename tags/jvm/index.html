@@ -239,8 +239,8 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/2-Java内存区域与内存溢出异常/">
-                            深入理解Java虚拟机 (2-Java内存区域与内存溢出异常)
+                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/6-类文件结构/">
+                            深入理解Java虚拟机 (6-类文件结构)
                         </a>
                     
                 </h1>
@@ -259,7 +259,7 @@
     
     
         &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:53:23 GMT+0800">
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:54:00 GMT+0800">
         
 		    Feb 08, 2017
     	
@@ -271,16 +271,16 @@
             
                 <div class="postShorten-content" itemprop="articleBody">
                     
-                    Java内存区域与内存溢出异常Java与C++之间有一堵由内存动态分配和垃圾收集技术所围成的“高墙”,墙外面的人想进去,墙里面的人却想出来。
-运行时数据区域
-
-程序计数器程序计数器(ProgramCounterRegister)是一块较小的内存空间,它可以看作是当前线程所执行的宇节码的行号指示器.在虚拟机的概念模型里(仅是概念模型,各种虚拟机可能会通过一些更高效的方式去实现),字节码解释器工作时就...<br>
+                    类文件结构代码编译的结果从本地机器码转变为宇节码,是存储格式发展的一小步,却是编程语言发展的一大步。
+语言无关性实现语言无关性的基础是虚拟机和字节码存储格式。
+宇节码命令所能提供的语义描述能力比Java语言本身更加强大。
+Class类文件的结构class文件是一组以8字节为基础单位的二进制流,各个数据项目严格按照顺序紧凑地排列在Class文件之中,中间没有添加任何分隔符,这使得整个Class文件中...<br>
                     
                     
                         
                     
                     
-                       <a href="/2016/12/08/深入理解Java虚拟机/2-Java内存区域与内存溢出异常/" class="postShorten-excerpt_link link">
+                       <a href="/2016/12/08/深入理解Java虚拟机/6-类文件结构/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -336,177 +336,6 @@
                     
                     
                        <a href="/2016/12/08/深入理解Java虚拟机/1-走近Java/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/11-运行期优化/">
-                            深入理解Java虚拟机 (11-运行期优化)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/JAVA/">JAVA</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:54:57 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    运行期优化由于Java虚拟机规范没有具体的约束规则去限制即时编译器应该如何实现,所以这部分功能完全是与虚拟机具体实现
-HotSpot虚拟机内的即时编译器解释器与编译器解释器与编译器两者各有优势：当程序需要迅速启动和执行的时候，解释器可以首先发挥作用，省去编译的时间，立即执行。在程序运行后，随着时间的推移，编译器逐渐发挥作用，把越来越多的代码编译成本地代码之后，可以获取更高的执行效率。当程序运行环境...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/深入理解Java虚拟机/11-运行期优化/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
-                            深入理解Java虚拟机 (12-Java内存模型与线程)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/JAVA/">JAVA</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:55:08 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    Java内存模型与线程并发处理的广泛应用是使得Amdahl定律代替摩尔定律成为计算机性能发展源动力的根本原因,也是人类“压榨”计算机运算能力的最有力武器。
-概述并发场景
-－　充分利用计算机处理器的能力
-－　一个服务端同时对多个客户端提供服务
-##　硬件的效率与一致性
-物理计算机中的并发问题
-基于髙速缓存的存储交互很好地解决了处理器与内存的速度矛盾,但是也为计算机系统带来更高的复杂度,因为它引人了一...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/13-线程安全与锁优化/">
-                            深入理解Java虚拟机 (13-线程安全与锁优化)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/JAVA/">JAVA</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:55:20 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    线程安全与锁优化线程安全当多个线程访问一个对象时,如果不用考虑这些线程在运行时环境下的调度和交替执行,也不需要进行额外的同步,或者在调用方进行任何其他的协调操作,调用这个对象的行为都可以获得正确的结果,那这个对象是线程安全的。
-弱化 如果把“调用这个对象的行为”限定为“单次调用”，这个定义的其他描述也能够成立的话，我们就可以称它是线程安全了。
-Java语言中的线程安全不可变不可变(Immutabl...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/深入理解Java虚拟机/13-线程安全与锁优化/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -633,8 +462,8 @@ Java堆和方法区则不一样,一个接口中的多个实现类需要的内存
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/6-类文件结构/">
-                            深入理解Java虚拟机 (6-类文件结构)
+                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/2-Java内存区域与内存溢出异常/">
+                            深入理解Java虚拟机 (2-Java内存区域与内存溢出异常)
                         </a>
                     
                 </h1>
@@ -653,7 +482,7 @@ Java堆和方法区则不一样,一个接口中的多个实现类需要的内存
     
     
         &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:54:00 GMT+0800">
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:53:23 GMT+0800">
         
 		    Feb 08, 2017
     	
@@ -665,16 +494,126 @@ Java堆和方法区则不一样,一个接口中的多个实现类需要的内存
             
                 <div class="postShorten-content" itemprop="articleBody">
                     
-                    类文件结构代码编译的结果从本地机器码转变为宇节码,是存储格式发展的一小步,却是编程语言发展的一大步。
-语言无关性实现语言无关性的基础是虚拟机和字节码存储格式。
-宇节码命令所能提供的语义描述能力比Java语言本身更加强大。
-Class类文件的结构class文件是一组以8字节为基础单位的二进制流,各个数据项目严格按照顺序紧凑地排列在Class文件之中,中间没有添加任何分隔符,这使得整个Class文件中...<br>
+                    Java内存区域与内存溢出异常Java与C++之间有一堵由内存动态分配和垃圾收集技术所围成的“高墙”,墙外面的人想进去,墙里面的人却想出来。
+运行时数据区域
+
+程序计数器程序计数器(ProgramCounterRegister)是一块较小的内存空间,它可以看作是当前线程所执行的宇节码的行号指示器.在虚拟机的概念模型里(仅是概念模型,各种虚拟机可能会通过一些更高效的方式去实现),字节码解释器工作时就...<br>
                     
                     
                         
                     
                     
-                       <a href="/2016/12/08/深入理解Java虚拟机/6-类文件结构/" class="postShorten-excerpt_link link">
+                       <a href="/2016/12/08/深入理解Java虚拟机/2-Java内存区域与内存溢出异常/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/11-运行期优化/">
+                            深入理解Java虚拟机 (11-运行期优化)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/JAVA/">JAVA</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:54:57 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    运行期优化由于Java虚拟机规范没有具体的约束规则去限制即时编译器应该如何实现,所以这部分功能完全是与虚拟机具体实现
+HotSpot虚拟机内的即时编译器解释器与编译器解释器与编译器两者各有优势：当程序需要迅速启动和执行的时候，解释器可以首先发挥作用，省去编译的时间，立即执行。在程序运行后，随着时间的推移，编译器逐渐发挥作用，把越来越多的代码编译成本地代码之后，可以获取更高的执行效率。当程序运行环境...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/深入理解Java虚拟机/11-运行期优化/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/7-虚拟机类加载机制/">
+                            深入理解Java虚拟机 (7-虚拟机类加载机制)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/JAVA/">JAVA</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:54:12 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    虚拟机类加载机制概述虚拟机把描述类的数据从Class文件加载到内存,并对数据进行校验、转换解析和初始化,最终形成可以被虚拟机直接使用的Java类型,这就是虚拟机的类加载机制。
+在Java语言里面,类型的加载、连接和初始化过程都是在程序运行期间完成的,这种策略虽然会令类加载时稍微增加一些性能开销,但是会为Java应用程序提供高度的灵活性,Java里天生可以动态扩展的语言特性就是依赖运行期动态加载和动...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/深入理解Java虚拟机/7-虚拟机类加载机制/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -745,8 +684,8 @@ Class类文件的结构class文件是一组以8字节为基础单位的二进制
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/7-虚拟机类加载机制/">
-                            深入理解Java虚拟机 (7-虚拟机类加载机制)
+                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/9-类加载及执行子系统的案例与实战/">
+                            深入理解Java虚拟机 (9-类加载及执行子系统的案例与实战)
                         </a>
                     
                 </h1>
@@ -765,7 +704,7 @@ Class类文件的结构class文件是一组以8字节为基础单位的二进制
     
     
         &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:54:12 GMT+0800">
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:54:33 GMT+0800">
         
 		    Feb 08, 2017
     	
@@ -777,14 +716,74 @@ Class类文件的结构class文件是一组以8字节为基础单位的二进制
             
                 <div class="postShorten-content" itemprop="articleBody">
                     
-                    虚拟机类加载机制概述虚拟机把描述类的数据从Class文件加载到内存,并对数据进行校验、转换解析和初始化,最终形成可以被虚拟机直接使用的Java类型,这就是虚拟机的类加载机制。
-在Java语言里面,类型的加载、连接和初始化过程都是在程序运行期间完成的,这种策略虽然会令类加载时稍微增加一些性能开销,但是会为Java应用程序提供高度的灵活性,Java里天生可以动态扩展的语言特性就是依赖运行期动态加载和动...<br>
+                    类加载及执行子系统的案例与实战字节码生成技术与动态代理的实现在Java里面除了javac和字节码类库外,使用字节码生成的例子还有很多,如Web服务器中的JSP编译器,编译时椬人的AOP框架,还有很常用的动态代理技术,甚至在使用反射的时候虚拟机都有可能会在运行时生成字节码来提高执行速度。
+在Spring内部都是通过动态代理的方式来对Bean进行增强的。动态代理中所谓的“动态”,是针对使用Java代码...<br>
                     
                     
                         
                     
                     
-                       <a href="/2016/12/08/深入理解Java虚拟机/7-虚拟机类加载机制/" class="postShorten-excerpt_link link">
+                       <a href="/2016/12/08/深入理解Java虚拟机/9-类加载及执行子系统的案例与实战/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
+                            深入理解Java虚拟机 (12-Java内存模型与线程)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/JAVA/">JAVA</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:55:08 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    Java内存模型与线程并发处理的广泛应用是使得Amdahl定律代替摩尔定律成为计算机性能发展源动力的根本原因,也是人类“压榨”计算机运算能力的最有力武器。
+概述并发场景
+－　充分利用计算机处理器的能力
+－　一个服务端同时对多个客户端提供服务
+##　硬件的效率与一致性
+物理计算机中的并发问题
+基于髙速缓存的存储交互很好地解决了处理器与内存的速度矛盾,但是也为计算机系统带来更高的复杂度,因为它引人了一...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -896,8 +895,8 @@ Class类文件的结构class文件是一组以8字节为基础单位的二进制
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
-                            <h3 class="media-heading">深入理解Java虚拟机 (12-Java内存模型与线程)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/8-监控/">
+                            <h3 class="media-heading">微服务设计 (8-监控)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -915,8 +914,8 @@ Class类文件的结构class文件是一组以8字节为基础单位的二进制
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/12-总结/">
-                            <h3 class="media-heading">微服务设计 (12-总结)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/计算理论导引/3-上下文无关文法/">
+                            <h3 class="media-heading">计算理论导引 (3-上下文无关文法)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -991,8 +990,8 @@ Class类文件的结构class文件是一组以8字节为基础单位的二进制
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
-                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
+                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1010,8 +1009,8 @@ Class类文件的结构class文件是一组以8字节为基础单位的二进制
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
-                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
+                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1048,8 +1047,8 @@ Class类文件的结构class文件是一组以8字节为基础单位的二进制
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/">
-                            <h3 class="media-heading">java虚拟机并发编程 (4-可扩展性和线程安全)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
+                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1067,8 +1066,8 @@ Class类文件的结构class文件是一组以8字节为基础单位的二进制
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
-                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/6-软件事务内存/">
+                            <h3 class="media-heading">java虚拟机并发编程 (6-软件事务内存)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">

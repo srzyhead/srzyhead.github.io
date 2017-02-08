@@ -238,8 +238,65 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/12-总结/">
-                            微服务设计 (12-总结)
+                        <a class="link-unstyled" href="/2016/12/08/计算理论导引/3-上下文无关文法/">
+                            计算理论导引 (3-上下文无关文法)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/计算机科学/">计算机科学</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:48:56 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    上下文无关文法上下文无关文法（context-free grammar) ，它能够描述某些应用广泛的具有递归结构特征的语言。
+语法分析器（parser) ,它在生成编译代码或解释程序执行前，提取出程序的语义。
+与上下文无关文法相关的语言集合称为 上下文无关语言（context-free language) 。
+上下文无关文法概述上下文无关文法的形式化定义上下文无关文法 是一个4元组$(V,Σ,R,...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/计算理论导引/3-上下文无关文法/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/微服务设计/9-安全/">
+                            微服务设计 (9-安全)
                         </a>
                     
                 </h1>
@@ -258,7 +315,7 @@
     
     
         &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:46:21 GMT+0800">
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:45:44 GMT+0800">
         
 		    Feb 08, 2017
     	
@@ -270,29 +327,18 @@
             
                 <div class="postShorten-content" itemprop="articleBody">
                     
-                    总结微服务的原则
-
-围绕业务概念建模
-
-使用限界上下文来定义可能的领域边界。
-
-接受自动化文化
-
-自动化测试必不可少,因为相比单块系统,确保我们大量的服务能正常工作是一个更复杂的过程。调用一个统一的命令行,以相同的方式把系统部署到各个环境是一个很有用的实践,这也是采用持续交付对每次提交后的产品质量进行快速反馈的一个关键部分。
-
-隐藏内部实现细节
-
-选择与技术无关的API
-
-让一切都去中心化
-
-确保...<br>
+                    安全身份验证和授权当我们抽象地讨论进行身份验证的人或事时,我们称之为主体(principal)
+SSO (Single Sign-On,单点登录)
+服务间的身份验证和授权在边界内允许一切。
+HTTP(S)基本身份验证用户名和密码泄露
+HTTP之上的HMACOAuth规范的一部分,并被广泛应用于亚马逊AWS的S3API。
+使用HMAC,请求主体和私有密钥一起被哈希处理,生成的哈希值随请求一起发送。然...<br>
                     
                     
                         
                     
                     
-                       <a href="/2016/12/08/微服务设计/12-总结/" class="postShorten-excerpt_link link">
+                       <a href="/2016/12/08/微服务设计/9-安全/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -308,8 +354,8 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/13-线程安全与锁优化/">
-                            深入理解Java虚拟机 (13-线程安全与锁优化)
+                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/1-走近Java/">
+                            深入理解Java虚拟机 (1-走近 Java)
                         </a>
                     
                 </h1>
@@ -328,7 +374,7 @@
     
     
         &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:55:20 GMT+0800">
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:53:09 GMT+0800">
         
 		    Feb 08, 2017
     	
@@ -340,15 +386,180 @@
             
                 <div class="postShorten-content" itemprop="articleBody">
                     
-                    线程安全与锁优化线程安全当多个线程访问一个对象时,如果不用考虑这些线程在运行时环境下的调度和交替执行,也不需要进行额外的同步,或者在调用方进行任何其他的协调操作,调用这个对象的行为都可以获得正确的结果,那这个对象是线程安全的。
-弱化 如果把“调用这个对象的行为”限定为“单次调用”，这个定义的其他描述也能够成立的话，我们就可以称它是线程安全了。
-Java语言中的线程安全不可变不可变(Immutabl...<br>
+                    走近 JavaJava虚拟机发展史Sun HotSpot VM在2006年的JavaOne大会上,Sun公苛宣布最终会把Java开源,并在随后的一年,陆续将JDK的各个部分(其中当然也包括了HotSpotVM)在GPL协议下公开了源码,并在此基础上建立了OpenJDK。这样,HotSpotVM便成为了Sun JDK和Open JDK两个实现极度接近的JDK项目的共同虚拟机。
+在2008年和2009...<br>
                     
                     
                         
                     
                     
-                       <a href="/2016/12/08/深入理解Java虚拟机/13-线程安全与锁优化/" class="postShorten-excerpt_link link">
+                       <a href="/2016/12/08/深入理解Java虚拟机/1-走近Java/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/11-运行期优化/">
+                            深入理解Java虚拟机 (11-运行期优化)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/JAVA/">JAVA</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:54:57 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    运行期优化由于Java虚拟机规范没有具体的约束规则去限制即时编译器应该如何实现,所以这部分功能完全是与虚拟机具体实现
+HotSpot虚拟机内的即时编译器解释器与编译器解释器与编译器两者各有优势：当程序需要迅速启动和执行的时候，解释器可以首先发挥作用，省去编译的时间，立即执行。在程序运行后，随着时间的推移，编译器逐渐发挥作用，把越来越多的代码编译成本地代码之后，可以获取更高的执行效率。当程序运行环境...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/深入理解Java虚拟机/11-运行期优化/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/10-编译期优化/">
+                            深入理解Java虚拟机 (10-编译期优化)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/JAVA/">JAVA</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:54:45 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    编译期优化Java语法糖泛型与类型擦除泛型的本质是参数化类型(Parametersized Type)。
+C#有自己的虚方法表和类型数据,这种实现称为类型膨胀,基于这种方法实现的泛型称为 真实泛型 。
+Java语言中的泛型则不一样,它只在程序源码中存在,在编译后的字节码文件中,就已经替换为原來的原生类型（RawType,也称为裸类型）了,并且在相应的地方插入了强制转换代码。Java语者中的泛型实现...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/深入理解Java虚拟机/10-编译期优化/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/3-垃圾收集器与内存分配策略/">
+                            深入理解Java虚拟机 (3-垃圾收集器与内存分配策略)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/JAVA/">JAVA</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:53:39 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    垃圾收集器与内存分配策略概述程序计数器、虚拟机栈、本地方法栈3个区域随线程而生,随线程而灭。因此这几个区域的内存分配和回收都具备确定性,在这几个区域内就不需要过多考虑回收的问题,因为方法结束或者线程结束时,内存自然就跟随着回收了。
+Java堆和方法区则不一样,一个接口中的多个实现类需要的内存可能不一样,一个方法中的多个分支需要的内存也可能不一样,我们只有在程序处于运行期间时才能知道会创建哪些对象,...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/深入理解Java虚拟机/3-垃圾收集器与内存分配策略/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -421,61 +632,6 @@ Java语言中的线程安全不可变不可变(Immutabl...<br>
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/3-垃圾收集器与内存分配策略/">
-                            深入理解Java虚拟机 (3-垃圾收集器与内存分配策略)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/JAVA/">JAVA</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:53:39 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    垃圾收集器与内存分配策略概述程序计数器、虚拟机栈、本地方法栈3个区域随线程而生,随线程而灭。因此这几个区域的内存分配和回收都具备确定性,在这几个区域内就不需要过多考虑回收的问题,因为方法结束或者线程结束时,内存自然就跟随着回收了。
-Java堆和方法区则不一样,一个接口中的多个实现类需要的内存可能不一样,一个方法中的多个分支需要的内存也可能不一样,我们只有在程序处于运行期间时才能知道会创建哪些对象,...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/深入理解Java虚拟机/3-垃圾收集器与内存分配策略/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
                         <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/6-类文件结构/">
                             深入理解Java虚拟机 (6-类文件结构)
                         </a>
@@ -518,61 +674,6 @@ Class类文件的结构class文件是一组以8字节为基础单位的二进制
                     
                     
                        <a href="/2016/12/08/深入理解Java虚拟机/6-类文件结构/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/8-虚拟机字节码执行引擎/">
-                            深入理解Java虚拟机 (8-虚拟机字节码执行引擎)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/JAVA/">JAVA</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:55:22 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    虚拟机字节码执行引擎在Java虚拟机规范中制定了虚拟机宇节码执行引擎的概念模型,这个概念模型成为各种虚拟机执行引擎的统一外观(Facade)。在不同的虚拟机实现里面,执行引擎在执行java代码的时候可能会有解释执行(通过解释器执行)和编译执行(通过即时编译器产生本地代码执行)两种选择,也可能两者兼备,甚至还可能会包含几个不同级别的编译器执行引擎。
-运行时栈帧结构栈帧(Stack Frame) 是用...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/深入理解Java虚拟机/8-虚拟机字节码执行引擎/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -643,62 +744,8 @@ Class类文件的结构class文件是一组以8字节为基础单位的二进制
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/线性代数导论/1-Introduction_to_Vectors/">
-                            线性代数导论 (1-Introduction to Vectors)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/数学/">数学</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:51:10 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    Introduction to VectorsVectors and Linear CombinationsVECTOR ADDITION $v =\begin{bmatrix}v_1 \v_2 \\end{bmatrix}$ and $w =\begin{bmatrix}w_1 \w_2 \\end{bmatrix}$ add to $v + w = \begin{bmatrix}v_1 + w...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/线性代数导论/1-Introduction_to_Vectors/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/9-类加载及执行子系统的案例与实战/">
-                            深入理解Java虚拟机 (9-类加载及执行子系统的案例与实战)
+                        <a class="link-unstyled" href="/2016/12/08/深入理解Java虚拟机/8-虚拟机字节码执行引擎/">
+                            深入理解Java虚拟机 (8-虚拟机字节码执行引擎)
                         </a>
                     
                 </h1>
@@ -717,7 +764,7 @@ Class类文件的结构class文件是一组以8字节为基础单位的二进制
     
     
         &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:54:33 GMT+0800">
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:55:22 GMT+0800">
         
 		    Feb 08, 2017
     	
@@ -729,71 +776,14 @@ Class类文件的结构class文件是一组以8字节为基础单位的二进制
             
                 <div class="postShorten-content" itemprop="articleBody">
                     
-                    类加载及执行子系统的案例与实战字节码生成技术与动态代理的实现在Java里面除了javac和字节码类库外,使用字节码生成的例子还有很多,如Web服务器中的JSP编译器,编译时椬人的AOP框架,还有很常用的动态代理技术,甚至在使用反射的时候虚拟机都有可能会在运行时生成字节码来提高执行速度。
-在Spring内部都是通过动态代理的方式来对Bean进行增强的。动态代理中所谓的“动态”,是针对使用Java代码...<br>
+                    虚拟机字节码执行引擎在Java虚拟机规范中制定了虚拟机宇节码执行引擎的概念模型,这个概念模型成为各种虚拟机执行引擎的统一外观(Facade)。在不同的虚拟机实现里面,执行引擎在执行java代码的时候可能会有解释执行(通过解释器执行)和编译执行(通过即时编译器产生本地代码执行)两种选择,也可能两者兼备,甚至还可能会包含几个不同级别的编译器执行引擎。
+运行时栈帧结构栈帧(Stack Frame) 是用...<br>
                     
                     
                         
                     
                     
-                       <a href="/2016/12/08/深入理解Java虚拟机/9-类加载及执行子系统的案例与实战/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/线性代数导论/2-Solving_Linear_Equations/">
-                            线性代数导论 (2-Solving Linear Equations)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/数学/">数学</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:51:26 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    Solving Linear EquationsVectors and Linear Equations
-The row picture shows tow lines meeting at a single point(solution).
-
-The column picture combines the column vectors on the left side to product th...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/线性代数导论/2-Solving_Linear_Equations/" class="postShorten-excerpt_link link">
+                       <a href="/2016/12/08/深入理解Java虚拟机/8-虚拟机字节码执行引擎/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -914,8 +904,8 @@ The column picture combines the column vectors on the left side to product th...
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
-                            <h3 class="media-heading">深入理解Java虚拟机 (12-Java内存模型与线程)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/8-监控/">
+                            <h3 class="media-heading">微服务设计 (8-监控)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -933,8 +923,8 @@ The column picture combines the column vectors on the left side to product th...
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/12-总结/">
-                            <h3 class="media-heading">微服务设计 (12-总结)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/计算理论导引/3-上下文无关文法/">
+                            <h3 class="media-heading">计算理论导引 (3-上下文无关文法)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1009,8 +999,8 @@ The column picture combines the column vectors on the left side to product th...
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
-                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
+                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1028,8 +1018,8 @@ The column picture combines the column vectors on the left side to product th...
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
-                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
+                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1066,8 +1056,8 @@ The column picture combines the column vectors on the left side to product th...
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/">
-                            <h3 class="media-heading">java虚拟机并发编程 (4-可扩展性和线程安全)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
+                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1085,8 +1075,8 @@ The column picture combines the column vectors on the left side to product th...
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
-                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/6-软件事务内存/">
+                            <h3 class="media-heading">java虚拟机并发编程 (6-软件事务内存)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">

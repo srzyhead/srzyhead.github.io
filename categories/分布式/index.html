@@ -239,8 +239,8 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/6-部署/">
-                            微服务设计 (6-部署)
+                        <a class="link-unstyled" href="/2016/12/08/微服务设计/11-规模化微服务/">
+                            微服务设计 (11-规模化微服务)
                         </a>
                     
                 </h1>
@@ -259,7 +259,7 @@
     
     
         &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:44:58 GMT+0800">
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:46:12 GMT+0800">
         
 		    Feb 08, 2017
     	
@@ -271,24 +271,277 @@
             
                 <div class="postShorten-content" itemprop="articleBody">
                     
-                    部署CI - Continuous Integration , 持续集成
+                    规模化微服务拥抱故障
 
-你是否每天签入代码到主线?
+非功能需求
 
-你是否有一组测试来验证修改?
+响应时间/延迟
+可用性
+数据持久性
 
-当构建失败后,团队是否把修复CI当作第一优先级的事情来做?
 
-
-##　构建流水线和持续交付
-CD - Continuous Delivery ,持续交付
-构建流水线可以很好地跟踪软件构建进度:每完成一个阶段,就离终点更近一步。流水线也能够可视化本次构建物的软件质...<br>
+功能降级对于每个使用多个微服务的面向用户的界面,或每个依赖多个下游合作者的微服务来说,你都需要问自己:“如果这个微服务宕掉会发生什么?”然后你就知道该做什么了。
+架构性安全措施正确地设置超时,实现舱壁隔离不同的连接池,并实现一个断路器 ,以便在第一时间避免给一个不健康的系统发送调用。
+反脆弱的组织混乱猴子(Chaos M...<br>
                     
                     
                         
                     
                     
-                       <a href="/2016/12/08/微服务设计/6-部署/" class="postShorten-excerpt_link link">
+                       <a href="/2016/12/08/微服务设计/11-规模化微服务/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/从Paxos到ZooKeeper/1-分布式架构/">
+                            从Paxos到ZooKeeper (1-分布式架构)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/分布式/">分布式</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:39:21 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    分布式架构分布式的特点分布式系统是一个硬件或软件组件分布在不同的网络计算机上,彼此之间仅仅通过消息传递进行通信和协调的系统。
+
+分布性
+
+对等性
+
+并发性
+
+缺乏全局时钟
+
+故障总是会发生
+
+
+分布式环境的各种问题
+通信异常
+
+单机内存访问的延时在纳秒数量级(通常是10ns左右),而正常的一次网络通信的延迟在0.1〜1ms左右(相当于内存访问延时的105〜106倍)
+
+网络分区
+
+当网络由于发生异...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/从Paxos到ZooKeeper/1-分布式架构/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/从Paxos到ZooKeeper/6-ZooKeeper的典型应用场景/">
+                            从Paxos到ZooKeeper (6-ZooKeeper的典型应用场景)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/分布式/">分布式</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:42:14 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    ZooKeeper的典型应用场景ZooKeeper是一个典型的发布/订阅模式的分布式数据管理与协调框架,开发人员可以使用它来进行分布式数据的发布与订阅。另一方面,通过对ZooKeeper中丰富的数据节点类型进行交叉使用,配合Watcher事件通知机制,可以非常方便地构建一系列分布式应用中都会涉及的核心功能,如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master选举、分布式锁...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/从Paxos到ZooKeeper/6-ZooKeeper的典型应用场景/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/从Paxos到ZooKeeper/2-一致性协议/">
+                            从Paxos到ZooKeeper (2-一致性协议)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/分布式/">分布式</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:39:45 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    一致性协议为了解决分布式一致性问题,在长期的探索研究过程中,涌现出了一大批经典的一致性协议和算法,其中最著名的就是二阶段提交协议、三阶段提交协议和Paxos算法了。
+2PC (Two-Phase Commit)二阶段提交协议是将事务的提交过程分成了两个阶段来进行处理
+
+
+优点:原理简单,实现方便。
+缺点:同步阻塞、单点问题、脑裂、太过保守。
+
+同步阻塞
+
+二阶段提交协议存在的最明显也是最大的一个问...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/从Paxos到ZooKeeper/2-一致性协议/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/微服务设计/1-什么是微服务/">
+                            微服务设计 (1-微服务)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/分布式/">分布式</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:43:28 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    微服务领域驱动设计 : 用代码呈现真实世界的重要性,并且告诉我们如何更好地进行建模
+持续交付理论 : 告诉我们如何更有效及更高效地发布软件产品,并指出保持每次提交均可发布的重要性
+六边形架构理论 :
+参考：http://www.cnblogs.com/Leo_wl/p/4418663.html
+什么是微服务微服务就是一些协同工作的小而自治的服务。
+
+服务应该多小
+
+微服务将单一职责原则应用在独立的...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/微服务设计/1-什么是微服务/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -426,8 +679,8 @@ TCP层面的心跳检测,即TCP的FCeep-Alive机制,它的作用域是整个TCP�
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/11-规模化微服务/">
-                            微服务设计 (11-规模化微服务)
+                        <a class="link-unstyled" href="/2016/12/08/微服务设计/12-总结/">
+                            微服务设计 (12-总结)
                         </a>
                     
                 </h1>
@@ -446,7 +699,7 @@ TCP层面的心跳检测,即TCP的FCeep-Alive机制,它的作用域是整个TCP�
     
     
         &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:46:12 GMT+0800">
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:46:21 GMT+0800">
         
 		    Feb 08, 2017
     	
@@ -458,24 +711,84 @@ TCP层面的心跳检测,即TCP的FCeep-Alive机制,它的作用域是整个TCP�
             
                 <div class="postShorten-content" itemprop="articleBody">
                     
-                    规模化微服务拥抱故障
+                    总结微服务的原则
 
-非功能需求
+围绕业务概念建模
 
-响应时间/延迟
-可用性
-数据持久性
+使用限界上下文来定义可能的领域边界。
 
+接受自动化文化
 
-功能降级对于每个使用多个微服务的面向用户的界面,或每个依赖多个下游合作者的微服务来说,你都需要问自己:“如果这个微服务宕掉会发生什么?”然后你就知道该做什么了。
-架构性安全措施正确地设置超时,实现舱壁隔离不同的连接池,并实现一个断路器 ,以便在第一时间避免给一个不健康的系统发送调用。
-反脆弱的组织混乱猴子(Chaos M...<br>
+自动化测试必不可少,因为相比单块系统,确保我们大量的服务能正常工作是一个更复杂的过程。调用一个统一的命令行,以相同的方式把系统部署到各个环境是一个很有用的实践,这也是采用持续交付对每次提交后的产品质量进行快速反馈的一个关键部分。
+
+隐藏内部实现细节
+
+选择与技术无关的API
+
+让一切都去中心化
+
+确保...<br>
                     
                     
                         
                     
                     
-                       <a href="/2016/12/08/微服务设计/11-规模化微服务/" class="postShorten-excerpt_link link">
+                       <a href="/2016/12/08/微服务设计/12-总结/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/12/08/从Paxos到ZooKeeper/4-ZooKeeper与Paxos/">
+                            从Paxos到ZooKeeper (4-ZooKeeper与Paxos)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
+	
+		    Dec 08, 2016
+    	
+    </time>    
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/分布式/">分布式</a>
+
+
+    
+    
+        &nbsp;|&nbsp; update on
+        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:40:29 GMT+0800">
+        
+		    Feb 08, 2017
+    	
+        </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    
+                    ZooKeeper与PaxosZooKeeper介绍ZooKeeper并没有直接采用Paxos算法,而是采用了一种被称为ZAB(ZooKeeper Atomic Broadcast)的一致性协议。
+ZooKeeper是一个典型的分布式数据一致性的解决方案,分布式应用程序可以基于它实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master选举、分布式锁和分布式队列等功能。Z...<br>
+                    
+                    
+                        
+                    
+                    
+                       <a href="/2016/12/08/从Paxos到ZooKeeper/4-ZooKeeper与Paxos/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -531,337 +844,6 @@ TCP层面的心跳检测,即TCP的FCeep-Alive机制,它的作用域是整个TCP�
                     
                     
                        <a href="/2016/12/08/微服务设计/2-演化式架构师/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/4-集成/">
-                            微服务设计 (4-集成)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/分布式/">分布式</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:44:45 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    集成理想集成技术的条件
-避免破坏性修改
-
-有时候,对某个服务做的一些修改会导致该服务的消费方也随之发生改变。但是我们希望选用的技术可以尽量避免这种情况的发生。比如,如果一个微服务在一个响应中添加了一个字段,那么已有的消费方不应该受到影响。
-
-保证 A P I 的技术无关性
-
-保证微服务之间通信方式的技术无关性是非常重要的。这就意味着,不应该选择那种对微服务的具体实现技术有限制的集成方式。
-
-使你的...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/微服务设计/4-集成/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/3-如何建模服务/">
-                            微服务设计 (3-如何建模服务)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/分布式/">分布式</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:44:07 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    如何建模服务什么样的服务是好服务松耦合 和 高内聚
-限界上下文限界上下文 一个由显式边界限定的特定职责
-共享的隐藏模型对 于 MusicCorp 来说,财务部门和仓库就可以是两个独立的限界上下文。
-有时候,同一个名字在不同的上下文中有着完全不同的含义。比如,退货表示的是客户退回的一些东西。在客户的上下文中,退货意味着打印运送标签、寄送包裹,然后等待退款。在仓库的上下文中,退货表示的是一个即将到来的...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/微服务设计/3-如何建模服务/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/5-分解单块系统/">
-                            微服务设计 (5-分解单块系统)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/分布式/">分布式</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:44:42 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    分解单块系统关键是接缝接缝 -&gt; 限界上下文
-分解单块系统的原因
-改变的速度
-
-团队结构
-
-安全
-
-技术
-
-
-杂乱的依赖数据库
-
-打破外键关系
-
-共享静态数据
-
-共享数据
-
-共享表
-
-
-事务边界
-再试一次
-
-终止整个操作
-
-分布式事务
-
-
-分布式事务很容易出错,而且不利于扩展。这种通过重试和补偿达成最终一致性的方式,会使得定位问题更加困难,而且有可能需要其他的补偿措施来修复潜在数据的不一致。...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/微服务设计/5-分解单块系统/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/1-什么是微服务/">
-                            微服务设计 (1-微服务)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/分布式/">分布式</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:43:28 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    微服务领域驱动设计 : 用代码呈现真实世界的重要性,并且告诉我们如何更好地进行建模
-持续交付理论 : 告诉我们如何更有效及更高效地发布软件产品,并指出保持每次提交均可发布的重要性
-六边形架构理论 :
-参考：http://www.cnblogs.com/Leo_wl/p/4418663.html
-什么是微服务微服务就是一些协同工作的小而自治的服务。
-
-服务应该多小
-
-微服务将单一职责原则应用在独立的...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/微服务设计/1-什么是微服务/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/12/08/微服务设计/7-测试/">
-                            微服务设计 (7-测试)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Dec 08 2016 17:33:00 GMT+0800">
-	
-		    Dec 08, 2016
-    	
-    </time>    
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/分布式/">分布式</a>
-
-
-    
-    
-        &nbsp;|&nbsp; update on
-        <time itemprop="dateUpdated" content="Wed Feb 08 2017 23:45:12 GMT+0800">
-        
-		    Feb 08, 2017
-    	
-        </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    
-                    测试测试类型
-测试范围
-对于用户界面测试,接下来我们改称它为端到端测试。
-
-单元测试
-
-TDD (Test-Driven Design ,测试驱动开发)
-单元测试是帮助我们开发人员的,是面向技术而非面向业务的。
-
-服务测试
-
-服务测试是绕开用户界面、直接针对服务的测试。在独立应用程序中,服务测试可能只测试为用户界面提供服务的一些类。对于包含多个服务的系统,一个服务测试只测试其中一个单独服务的功能。...<br>
-                    
-                    
-                        
-                    
-                    
-                       <a href="/2016/12/08/微服务设计/7-测试/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                     
@@ -974,8 +956,8 @@ TDD (Test-Driven Design ,测试驱动开发)
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/深入理解Java虚拟机/12-Java内存模型与线程/">
-                            <h3 class="media-heading">深入理解Java虚拟机 (12-Java内存模型与线程)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/8-监控/">
+                            <h3 class="media-heading">微服务设计 (8-监控)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -993,8 +975,8 @@ TDD (Test-Driven Design ,测试驱动开发)
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/微服务设计/12-总结/">
-                            <h3 class="media-heading">微服务设计 (12-总结)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/计算理论导引/3-上下文无关文法/">
+                            <h3 class="media-heading">计算理论导引 (3-上下文无关文法)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1069,8 +1051,8 @@ TDD (Test-Driven Design ,测试驱动开发)
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
-                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
+                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1088,8 +1070,8 @@ TDD (Test-Driven Design ,测试驱动开发)
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/2-分工原则/">
-                            <h3 class="media-heading">java虚拟机并发编程 (2-分工原则)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/1-基础知识/">
+                            <h3 class="media-heading">java虚拟机并发编程 (1-基础知识)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1126,8 +1108,8 @@ TDD (Test-Driven Design ,测试驱动开发)
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/4-可扩展性和线程安全/">
-                            <h3 class="media-heading">java虚拟机并发编程 (4-可扩展性和线程安全)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
+                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -1145,8 +1127,8 @@ TDD (Test-Driven Design ,测试驱动开发)
                 <div class="media">
                     
                     <div class="media-body">
-                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/5-驯服共享可变性/">
-                            <h3 class="media-heading">java虚拟机并发编程 (5-驯服共享可变性)</h3>
+                        <a class="link-unstyled" href="https://srzyhead.github.io/2016/12/08/java虚拟机并发编程/6-软件事务内存/">
+                            <h3 class="media-heading">java虚拟机并发编程 (6-软件事务内存)</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
